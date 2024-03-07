@@ -3,7 +3,7 @@ package com.business.controller.comm;
 import cn.hutool.core.collection.CollectionUtil;
 import com.business.common.enums.ResultCode;
 import com.business.common.response.ResultVO;
-import com.business.service.IFileUploadService;
+import com.business.service.system.IFileUploadService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;

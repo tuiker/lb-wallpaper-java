@@ -47,6 +47,10 @@ public class ResultVO<T> {
         return new ResultVO<>(ResultCode.SUCCESS.getCode(), msg, data);
     }
 
+    public static <T> ResultVO<T> success( T data, String msg){
+        return new ResultVO<>(ResultCode.SUCCESS.getCode(), msg, data);
+    }
+
     public static <T> ResultVO<T> error(String msg){
         return new ResultVO<>(ResultCode.ERROR.getCode(), msg, null);
     }

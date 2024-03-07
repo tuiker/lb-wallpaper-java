@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.business.model.dao.CategoryMapper">
+
+    <select id="pageList" resultType="com.business.controller.pc.category.vo.CategoryVO">
+        SELECT id, name, details, create_time FROM category
+        <where>
+            <if test="reqDTO.startTime != null and reqDTO.startTime != '' and reqDTO.endTime != null and reqDTO.endTime != ''">
+                AND (create_time <![CDATA[ >= ]]> #{reqDTO.startTime} AND create_time <![CDATA[ <= ]]> #{reqDTO.endTime})
+            </if>
+            <if test="null != reqDTO.name and '' != reqDTO.name">
+                AND `name` LIKE #{reqDTO.name}
+            </if>
+        </where>
+    </select>
+
+</mapper>
