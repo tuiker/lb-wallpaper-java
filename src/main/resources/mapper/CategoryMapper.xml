@@ -3,7 +3,11 @@
 <mapper namespace="com.business.model.dao.CategoryMapper">
 
     <select id="pageList" resultType="com.business.controller.pc.category.vo.CategoryVO">
-        SELECT id, name, details, create_time FROM category
+        SELECT a.id, a.name, a.details, a.create_time,
+               COUNT(b.id) AS wallpaperNum, SUM(b.download_num) AS downloadNum
+        FROM category AS a
+        LEFT JOIN wallpaper_info AS b
+        ON a.id = b.category_id
         <where>
             <if test="reqDTO.startTime != null and reqDTO.startTime != '' and reqDTO.endTime != null and reqDTO.endTime != ''">
                 AND (create_time <![CDATA[ >= ]]> #{reqDTO.startTime} AND create_time <![CDATA[ <= ]]> #{reqDTO.endTime})
@@ -12,6 +16,7 @@
                 AND `name` LIKE #{reqDTO.name}
             </if>
         </where>
+        GROUP BY a.id
     </select>
 
 </mapper>

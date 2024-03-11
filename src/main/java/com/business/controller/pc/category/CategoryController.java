@@ -1,5 +1,6 @@
 package com.business.controller.pc.category;
 
+import cn.hutool.core.bean.BeanUtil;
 import com.business.common.response.ResultVO;
 import com.business.common.vo.PageResult;
 import com.business.controller.pc.category.dto.CategoryAddReqDTO;
@@ -14,6 +15,8 @@ import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Slf4j
 @RestController
 @RequestMapping("/pc/category")
@@ -27,6 +30,12 @@ public class CategoryController {
     @GetMapping("/pageList")
     public ResultVO<PageResult<CategoryVO>> pageList(CategoryPageReqDTO reqDTO){
         return ResultVO.success(categoryService.pageList(reqDTO));
+    }
+
+    @Operation(summary = "查询所有壁纸分类")
+    @GetMapping("/listAll")
+    public ResultVO<List<CategoryVO>> listAll(){
+        return ResultVO.success(BeanUtil.copyToList(categoryService.list(), CategoryVO.class));
     }
 
     @Operation(summary = "添加壁纸分类")

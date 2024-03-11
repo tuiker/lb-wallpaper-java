@@ -16,18 +16,30 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = false)
-@TableName("category")
-@Schema(title = "分类实体类")
-public class Category extends BaseEntity {
+@TableName("wallpaper_info")
+@Schema(title = "壁纸信息实体类")
+public class WallpaperInfo extends BaseEntity {
 
     @TableId(type = IdType.AUTO)
     private Long id;
 
-    /** 分类名称 */
+    /** 壁纸名称 */
     private String name;
 
-    /** 分类详细信息 */
+    /** 壁纸图片访问路径集合 */
+    private String imgUrlList;
+
+    /** 是否为合集，0：否，1：是 */
+    private Integer isCollection;
+
+    /** 分类ID */
+    private Long categoryId;
+
+    /** 详细介绍 */
     private String details;
+
+    /** 下载量 */
+    private Integer downloadNum;
 
     /** 创建时间 */
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")

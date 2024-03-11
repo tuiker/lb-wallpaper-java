@@ -34,6 +34,12 @@ public class BaseEntity implements Serializable {
     @JSONField(format = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime updateTime;
 
+    /** 创建人ID */
+    private Long createId;
+
+    /** 修改人ID */
+    private Long updateId;
+
     /** 删除标记（0未删除，1已删除） */
     //    @TableLogic // 此注解表示该字段是逻辑删除字段（这里注掉是因为现用的mp版本是3.4.2，从3.3.0版本后就可以省略该注解）
     //private Integer delFlag;

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.business.model.dao.WallpaperInfoMapper">
+
+    <select id="pageList" resultType="com.business.controller.pc.wallpaper.vo.WallpaperInfoVO">
+        SELECT a.*, b.name AS categoryName FROM wallpaper_info AS a LEFT JOIN category AS b ON a.category_id = b.id
+        <where>
+            <if test="null != reqDTO.name and '' != reqDTO.name">
+                AND a.`name` LIKE #{reqDTO.name}
+            </if>
+        </where>
+        <if test="null != reqDTO.sortType and 1 == reqDTO.sortType">
+            ORDER BY a.create_time DESC
+        </if>
+        <if test="null != reqDTO.sortType and 2 == reqDTO.sortType">
+            ORDER BY a.download_num DESC
+        </if>
+    </select>
+
+</mapper>
