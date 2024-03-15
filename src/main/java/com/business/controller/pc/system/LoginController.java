@@ -9,7 +9,7 @@ import com.business.model.redis.LoginUserRedisDAO;
 import com.business.common.response.ResultVO;
 import com.business.controller.pc.system.vo.UserInfoVO;
 import com.business.controller.pc.system.vo.UserLoginRespVO;
-import com.business.service.system.IUserInfoService;
+import com.business.service.system.ISysUserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
@@ -30,7 +30,7 @@ import org.springframework.web.bind.annotation.*;
 public class LoginController {
 
     @Resource
-    IUserInfoService userInfoService;
+    ISysUserService userInfoService;
 
     @Resource
     private LoginUserRedisDAO loginUserRedisDAO;

@@ -8,10 +8,7 @@ import com.business.controller.pc.system.dto.SysRoleAddReqDTO;
 import com.business.controller.pc.system.dto.SysRoleUpdateReqDTO;
 import com.business.model.dao.system.SysRoleMapper;
 import com.business.model.pojo.system.SysRole;
-import com.business.model.pojo.system.UserInfo;
-import com.business.service.system.ISysRoleMenuService;
-import com.business.service.system.ISysRoleService;
-import com.business.service.system.IUserInfoService;
+import com.business.model.pojo.system.SysUser;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,7 +25,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
     private ISysRoleMenuService sysRoleMenuService;
 
     @Resource
-    private IUserInfoService userInfoService;
+    private ISysUserService userInfoService;
 
     /**
      * 添加角色
@@ -75,7 +72,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
      */
     @Override
     public ResultVO<Boolean> deleteRoleById(Integer roleId) {
-        Long count = userInfoService.lambdaQuery().eq(UserInfo::getRoleId, roleId).count();
+        Long count = userInfoService.lambdaQuery().eq(SysUser::getRoleId, roleId).count();
         if(count > 0){
             return ResultVO.success("该角色已绑定用户，请先解绑", false);
         }

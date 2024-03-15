@@ -17,4 +17,24 @@
         </if>
     </select>
 
+    <select id="mobilePageList" resultType="com.business.controller.mobile.wallpaper.vo.WallpaperPageVO">
+        SELECT id, `name`, img_url_list, is_collection, download_num FROM wallpaper_info
+        <where>
+            <if test="null != reqDTO.categoryId">
+                AND category_id = #{reqDTO.categoryId}
+            </if>
+            <if test="null != reqDTO.name and '' != reqDTO.name">
+                AND `name` LIKE #{reqDTO.name}
+            </if>
+        </where>
+        ORDER BY download_num DESC
+    </select>
+
+    <select id="getWallpaperDetailsInfo" resultType="com.business.controller.mobile.wallpaper.vo.WallpaperDetailsInfoVO">
+        SELECT a.*, b.name AS categoryName, c.id AS userId, c.user_name, c.user_img
+        FROM wallpaper_info AS a
+        LEFT JOIN category AS b ON a.category_id = b.id
+        LEFT JOIN sys_user AS c ON c.id = a.create_id
+        WHERE a.id = #{id}
+    </select>
 </mapper>

@@ -13,13 +13,12 @@ import com.business.common.util.SecurityUtils;
 import com.business.common.util.SystemNumUtil;
 import com.business.common.vo.PageResult;
 import com.business.controller.pc.system.dto.*;
-import com.business.model.dao.system.UserInfoMapper;
-import com.business.model.pojo.system.UserInfo;
+import com.business.model.dao.system.SysUserMapper;
+import com.business.model.pojo.system.SysUser;
 import com.business.model.redis.LoginUserRedisDAO;
 import com.business.common.response.ResultVO;
 import com.business.controller.pc.system.vo.UserInfoVO;
 import com.business.controller.pc.system.vo.UserLoginRespVO;
-import com.business.service.system.IUserInfoService;
 import com.business.common.util.MD5Utils;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
@@ -33,10 +32,10 @@ import java.time.LocalDateTime;
  * @Description: 用户信息表 服务类
  */
 @Service
-public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> implements IUserInfoService {
+public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> implements ISysUserService {
 
     @Resource
-    private UserInfoMapper userInfoMapper;
+    private SysUserMapper sysUserMapper;
 
     @Resource
     private LoginUserRedisDAO loginUserRedisDAO;
@@ -49,8 +48,8 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
     @Transactional
     @Override
     public ResultVO<UserLoginRespVO> loginUser(UserLoginReqDTO reqDTO) {
-        UserInfo user = this.lambdaQuery().eq(UserInfo::getUserName, reqDTO.getUsername())
-                .eq(UserInfo::getPassword, MD5Utils.MD5(reqDTO.getPassword())).one();
+        SysUser user = this.lambdaQuery().eq(SysUser::getUserName, reqDTO.getUsername())
+                .eq(SysUser::getPassword, MD5Utils.MD5(reqDTO.getPassword())).one();
         if (null != user) {
             //登录成功，创建token，存入缓存
             String token = IdUtil.fastSimpleUUID();
@@ -59,10 +58,10 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
             loginUserRedisDAO.set(token, loginUser);
 
             //修改最近登录时间
-            UserInfo updateUser = new UserInfo();
+            SysUser updateUser = new SysUser();
             updateUser.setId(user.getId());
             updateUser.setRecentLoginTime(LocalDateTime.now());
-            userInfoMapper.updateById(updateUser);
+            sysUserMapper.updateById(updateUser);
 
             //将用户的基本信息及token返回给前端
             UserLoginRespVO respVO = BeanUtil.copyProperties(user, UserLoginRespVO.class);
@@ -74,8 +73,8 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
 
 
     public UserInfoVO getUserInfoById(long id) {
-        UserInfo userInfo = userInfoMapper.selectById(id);
-        return BeanUtil.copyProperties(userInfo, UserInfoVO.class);
+        SysUser sysUser = sysUserMapper.selectById(id);
+        return BeanUtil.copyProperties(sysUser, UserInfoVO.class);
     }
 
     /**
@@ -88,7 +87,7 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
         if(StrUtil.isNotBlank(reqDTO.getUserName())){//模糊查询用户账号
             reqDTO.setUserName("%" + reqDTO.getUserName() + "%");
         }
-        Page<UserInfoVO> page = userInfoMapper.pageList(new Page<>(reqDTO.getPage(), reqDTO.getPageSize()), reqDTO);
+        Page<UserInfoVO> page = sysUserMapper.pageList(new Page<>(reqDTO.getPage(), reqDTO.getPageSize()), reqDTO);
         return new PageResult<>(page.getRecords(), page.getTotal());
     }
 
@@ -103,7 +102,7 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
             return ResultVO.success("该用户账号已被占用", false);
         }
 
-        UserInfo user = BeanUtil.copyProperties(reqDTO, UserInfo.class);
+        SysUser user = BeanUtil.copyProperties(reqDTO, SysUser.class);
         //密码进行加密
         user.setPassword(MD5Utils.MD5(reqDTO.getPassword()));
         user.setId(getUserId());
@@ -126,7 +125,7 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
             return ResultVO.success("该用户账号已被占用", false);
         }
 
-        UserInfo user = BeanUtil.copyProperties(reqDTO, UserInfo.class);
+        SysUser user = BeanUtil.copyProperties(reqDTO, SysUser.class);
         user.setUpdateId(SecurityUtils.getLoginUserId());
         user.setUpdateTime(LocalDateTime.now());
         this.updateById(user);
@@ -141,10 +140,10 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
      */
     @Override
     public ResultVO<Boolean> updateSysUserPassword(SysUserPasswordUpdateReqDTO reqDTO) {
-        UserInfo userInfo = new UserInfo();
-        userInfo.setId(reqDTO.getId());
-        userInfo.setPassword(MD5Utils.MD5(reqDTO.getPassword()));
-        this.updateById(userInfo);
+        SysUser sysUser = new SysUser();
+        sysUser.setId(reqDTO.getId());
+        sysUser.setPassword(MD5Utils.MD5(reqDTO.getPassword()));
+        this.updateById(sysUser);
         return ResultVO.success(true);
     }
 
@@ -154,10 +153,10 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
      * @return true：已存在， false：不存在
      */
     private boolean checkIsExists(String userName, Long userId){
-        LambdaQueryWrapper<UserInfo> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.eq(UserInfo::getUserName, userName);
+        LambdaQueryWrapper<SysUser> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(SysUser::getUserName, userName);
         if(null != userId){
-            queryWrapper.ne(UserInfo::getId, userId);
+            queryWrapper.ne(SysUser::getId, userId);
         }
         long count = this.count(queryWrapper);
         return count > 0;

@@ -31,6 +31,9 @@ public class FileUploadServiceImpl implements IFileUploadService {
     @Value("${lanBo.file.path:}")
     private String filePath;
 
+    @Value("${lanBo.file.devPath:}")
+    private String devfilePath;
+
     @Override
     public List<String> upload(MultipartFile[] files, String gameName) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmssSSS");
@@ -78,6 +81,9 @@ public class FileUploadServiceImpl implements IFileUploadService {
                     if (active != null && !active.equals("dev")) {//非开发则替换路径
                         saveDBPath = saveDBPath.replace("\\", "/")
                                 .replaceAll(filePath, mobilePath);
+
+                    }else {//开发路径，替换为本地文件服务器访问路径
+                        saveDBPath = devfilePath + saveDBPath.substring(saveDBPath.indexOf("\\lb-wallpaper-java"));
                     }
                     urlList.add(saveDBPath);
                 } catch (Exception e) {
@@ -88,7 +94,6 @@ public class FileUploadServiceImpl implements IFileUploadService {
         }
         return urlList;
     }
-
 
     /**
      * 获取文件后缀

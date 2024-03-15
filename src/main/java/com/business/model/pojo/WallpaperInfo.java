@@ -41,13 +41,4 @@ public class WallpaperInfo extends BaseEntity {
     /** 下载量 */
     private Integer downloadNum;
 
-    /** 创建时间 */
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime createTime;
-    /** 修改时间 */
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime updateTime;
-
 }

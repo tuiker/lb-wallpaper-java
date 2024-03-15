@@ -10,6 +10,9 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.business.common.response.ResultVO;
 import com.business.common.util.SecurityUtils;
 import com.business.common.vo.PageResult;
+import com.business.controller.mobile.wallpaper.dto.WallpaperPageReqDTO;
+import com.business.controller.mobile.wallpaper.vo.WallpaperDetailsInfoVO;
+import com.business.controller.mobile.wallpaper.vo.WallpaperPageVO;
 import com.business.controller.pc.category.dto.CategoryAddReqDTO;
 import com.business.controller.pc.category.dto.CategoryPageReqDTO;
 import com.business.controller.pc.category.dto.CategoryUpdateReqDTO;
@@ -53,6 +56,20 @@ public class WallpaperInfoServiceImpl extends ServiceImpl<WallpaperInfoMapper, W
     }
 
     /**
+     * 用户端 - 分页查询壁纸信息
+     * @param reqDTO
+     * @return
+     */
+    @Override
+    public PageResult<WallpaperPageVO> pageList(WallpaperPageReqDTO reqDTO) {
+        if(StrUtil.isNotBlank(reqDTO.getName())){//模糊查询壁纸信息名称
+            reqDTO.setName("%" + reqDTO.getName() + "%");
+        }
+        Page<WallpaperPageVO> page = wallpaperInfoMapper.mobilePageList(new Page<>(reqDTO.getPage(), reqDTO.getPageSize()), reqDTO);
+        return new PageResult<>(page.getRecords(), page.getTotal());
+    }
+
+    /**
      * 新增壁纸信息
      * @param reqDTO
      * @return
@@ -90,5 +107,15 @@ public class WallpaperInfoServiceImpl extends ServiceImpl<WallpaperInfoMapper, W
         this.updateById(wallpaperInfo);
 
         return ResultVO.success(true);
+    }
+
+    /**
+     * 根据ID获取壁纸详细信息
+     * @param id
+     * @return
+     */
+    @Override
+    public WallpaperDetailsInfoVO getWallpaperDetailsInfo(Long id) {
+        return wallpaperInfoMapper.getWallpaperDetailsInfo(id);
     }
 }

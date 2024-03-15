@@ -7,7 +7,7 @@ import com.business.controller.pc.system.dto.SysUserPasswordUpdateReqDTO;
 import com.business.controller.pc.system.dto.SysUserUpdateReqDTO;
 import com.business.controller.pc.system.dto.UserPageReqDTO;
 import com.business.controller.pc.system.vo.UserInfoVO;
-import com.business.service.system.IUserInfoService;
+import com.business.service.system.ISysUserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.*;
 public class SysUserController {
 
     @Resource
-    IUserInfoService userInfoService;
+    ISysUserService userInfoService;
 
     @Operation(summary = "分页查询用户列表")
     @GetMapping("/pageList")

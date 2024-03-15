@@ -29,13 +29,4 @@ public class Category extends BaseEntity {
     /** 分类详细信息 */
     private String details;
 
-    /** 创建时间 */
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime createTime;
-    /** 修改时间 */
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime updateTime;
-
 }

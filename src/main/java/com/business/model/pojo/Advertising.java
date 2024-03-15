@@ -36,10 +36,4 @@ public class Advertising extends BaseEntity {
 
     /** 广告描述 */
     private String advDesc;
-
-    /** 创建人ID */
-    private Long createId;
-
-    /** 修改人ID */
-    private Long updateId;
 }
