@@ -1,5 +1,6 @@
 package com.business.auth.entity;
 
+import com.business.model.pojo.ConsumerUser;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -41,6 +42,12 @@ public class LoginUser implements UserDetails {
      * 用户token
      */
     private String token;
+
+    public LoginUser(ConsumerUser consumerUser){
+        this.id = consumerUser.getId();
+        this.userName = consumerUser.getNickname();
+        this.phoneAccount = consumerUser.getPhone();
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

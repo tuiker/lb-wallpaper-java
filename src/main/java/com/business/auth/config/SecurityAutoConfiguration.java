@@ -25,7 +25,9 @@ public class SecurityAutoConfiguration {
             "/api-docs/**", //过滤文档访问
             "/swagger-ui/**", //过滤文档访问
             "/pc/user/userLogin", //过滤登录请求
-            "/mobile/**", //过滤APP/H5端所有请求
+            "/mobile/consumer/sendRegisterOrLoginSms", //过滤发送注册或登录验证码到用户手机请求
+            "/mobile/consumer/consumerLogin", //过滤登录请求
+            "/mobile/wallpaper/**", //过滤APP/H5端壁纸信息请求
             "/comm/**" //过滤公共请求
     };
 

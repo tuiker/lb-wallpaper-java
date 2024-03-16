@@ -55,7 +55,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
             String token = IdUtil.fastSimpleUUID();
             LoginUser loginUser = BeanUtil.copyProperties(user, LoginUser.class);
             loginUser.setToken(token);
-            loginUserRedisDAO.set(token, loginUser);
+            loginUserRedisDAO.set(token, loginUser, true);
 
             //修改最近登录时间
             SysUser updateUser = new SysUser();

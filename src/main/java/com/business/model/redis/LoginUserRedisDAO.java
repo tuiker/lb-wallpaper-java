@@ -27,9 +27,9 @@ public class LoginUserRedisDAO {
      */
     public static final String LOGIN_USER_TOKEN = "auth_token:%s";
     /**
-     * 默认过期时间 6小时
+     * 默认过期时间 24小时
      */
-    public static final Long EX_TIME = 21600L;
+    public static final Long EX_TIME = 8640L;
 
     /**
      * 根据token获取redis中的用户信息
@@ -45,10 +45,13 @@ public class LoginUserRedisDAO {
      * 设置redis中token缓存
      * @param token token
      * @param loginUser 用户信息
+     * @param isSys 是否系统用户，true：是，false：否；
      */
-    public void set(String token, LoginUser loginUser){
+    public void set(String token, LoginUser loginUser, boolean isSys){
         String redisKey = formatKey(token);
-        stringRedisTemplate.opsForValue().set(redisKey, JSON.toJSONString(loginUser), EX_TIME, TimeUnit.SECONDS);
+        //如果非系统用户，则过期时间为30天
+        long exTime = isSys ? EX_TIME : EX_TIME * 30;
+        stringRedisTemplate.opsForValue().set(redisKey, JSON.toJSONString(loginUser), exTime, TimeUnit.SECONDS);
     }
 
     /**

@@ -26,7 +26,7 @@ import org.springframework.web.bind.annotation.*;
 @Slf4j
 @RestController
 @RequestMapping("/pc/user")
-@Tag(name = "后台用户控制控制层")
+@Tag(name = "admin端 - 后台用户登录登出控制层")
 public class LoginController {
 
     @Resource

@@ -76,7 +76,7 @@ CREATE TABLE `lb-wallpaper`.`sys_user`  (
                                                     `role_id` int NULL DEFAULT NULL COMMENT '角色ID',
                                                     `channel_id` int NULL DEFAULT NULL COMMENT '渠道ID',
                                                     PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '用户表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '系统用户表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_user
