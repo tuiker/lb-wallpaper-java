@@ -3,7 +3,9 @@ package com.business.service.consumerUser;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.business.common.response.ResultVO;
 import com.business.common.vo.PageResult;
+import com.business.controller.mobile.consumerUser.dto.ConsumerUserUpdateReqDTO;
 import com.business.controller.mobile.consumerUser.dto.LoginReqDTO;
+import com.business.controller.mobile.consumerUser.vo.ConsumerUserVO;
 import com.business.controller.mobile.consumerUser.vo.LoginResultVO;
 import com.business.model.pojo.ConsumerUser;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -26,5 +28,18 @@ public interface IConsumerUserService extends IService<ConsumerUser> {
      * @return
      */
     ResultVO<Boolean> consumerLoginOut();
+
+    /**
+     * 获取用户信息
+     * @return
+     */
+    ConsumerUserVO getUserInfo();
+
+    /**
+     * 修改用户信息
+     * @param reqDTO
+     * @return
+     */
+    ResultVO<Boolean> updateConsumerUserInfo(ConsumerUserUpdateReqDTO reqDTO);
 
 }

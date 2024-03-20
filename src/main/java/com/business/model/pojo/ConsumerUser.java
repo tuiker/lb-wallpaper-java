@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Data
@@ -37,5 +38,14 @@ public class ConsumerUser {
 
     /** 最近登录时间 */
     private LocalDateTime recentLoginTime;
+
+    /** 性别，1：男，2：女 */
+    private Integer gender;
+
+    /** 生日 */
+    private LocalDate birthday;
+
+    /** 签名 */
+    private String signature;
 
 }

@@ -3,7 +3,9 @@ package com.business.controller.mobile.consumerUser;
 import com.business.common.response.ResultVO;
 import com.business.common.util.SmsUtil;
 import com.business.common.vo.PageResult;
+import com.business.controller.mobile.consumerUser.dto.ConsumerUserUpdateReqDTO;
 import com.business.controller.mobile.consumerUser.dto.LoginReqDTO;
+import com.business.controller.mobile.consumerUser.vo.ConsumerUserVO;
 import com.business.controller.mobile.consumerUser.vo.LoginResultVO;
 import com.business.service.consumerUser.IConsumerUserService;
 import com.unimtx.UniResponse;
@@ -39,6 +41,18 @@ public class ConsumerUserController {
     @PostMapping("/consumerLoginOut")
     public ResultVO<Boolean> consumerLoginOut() {
         return consumerUserService.consumerLoginOut();
+    }
+
+    @Operation(summary = "获取用户信息")
+    @GetMapping("/getUserInfo")
+    public ResultVO<ConsumerUserVO> getUserInfo(){
+        return ResultVO.success(consumerUserService.getUserInfo());
+    }
+
+    @Operation(summary = "修改用户信息")
+    @PostMapping("/update")
+    public ResultVO<Boolean> updateConsumerUserInfo(@RequestBody ConsumerUserUpdateReqDTO reqDTO){
+        return consumerUserService.updateConsumerUserInfo(reqDTO);
     }
 
 }

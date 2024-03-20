@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.business.common.response.ResultVO;
 import com.business.common.util.SecurityUtils;
 import com.business.common.vo.PageResult;
+import com.business.controller.mobile.advertising.vo.MobileAdvertisingVO;
 import com.business.controller.pc.advertising.dto.AdvAddReqDTO;
 import com.business.controller.pc.advertising.dto.AdvPageReqDTO;
 import com.business.controller.pc.advertising.dto.AdvUpdateReqDTO;
@@ -60,6 +61,15 @@ public class AdvertisingServiceImpl extends ServiceImpl<AdvertisingMapper, Adver
         advertising.setUpdateId(SecurityUtils.getLoginUserId());
         this.updateById(advertising);
         return ResultVO.success(true);
+    }
+
+    /**
+     * 获取下载壁纸前的广告信息
+     * @return
+     */
+    @Override
+    public MobileAdvertisingVO getDownloadBeforeAdv() {
+        return advertisingMapper.getDownloadBeforeAdv();
     }
 
 }

@@ -7,4 +7,7 @@
         ORDER BY create_time DESC
     </select>
 
+    <select id="getDownloadBeforeAdv" resultType="com.business.controller.mobile.advertising.vo.MobileAdvertisingVO">
+        SELECT * FROM advertising ORDER BY RAND() LIMIT 1;
+    </select>
 </mapper>

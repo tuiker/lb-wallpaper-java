@@ -7,7 +7,9 @@ import com.business.auth.entity.LoginUser;
 import com.business.common.response.ResultVO;
 import com.business.common.util.SecurityUtils;
 import com.business.common.util.SmsUtil;
+import com.business.controller.mobile.consumerUser.dto.ConsumerUserUpdateReqDTO;
 import com.business.controller.mobile.consumerUser.dto.LoginReqDTO;
+import com.business.controller.mobile.consumerUser.vo.ConsumerUserVO;
 import com.business.controller.mobile.consumerUser.vo.LoginResultVO;
 import com.business.model.dao.ConsumerUserMapper;
 import com.business.model.pojo.ConsumerUser;
@@ -85,6 +87,33 @@ public class ConsumerUserServiceImpl extends ServiceImpl<ConsumerUserMapper, Con
     }
 
     /**
+     * 获取用户信息
+     * @return
+     */
+    @Override
+    public ConsumerUserVO getUserInfo() {
+        ConsumerUser consumerUser = this.getById(SecurityUtils.getLoginUserId());
+        return BeanUtil.copyProperties(consumerUser, ConsumerUserVO.class);
+    }
+
+    /**
+     * 修改用户信息
+     * @param reqDTO
+     * @return
+     */
+    @Override
+    public ResultVO<Boolean> updateConsumerUserInfo(ConsumerUserUpdateReqDTO reqDTO) {
+        ConsumerUser consumerUser = BeanUtil.copyProperties(reqDTO, ConsumerUser.class);
+        this.updateById(consumerUser);
+        return ResultVO.success(true);
+    }
+
+
+
+
+
+
+    /**
      * 根据手机号校验用户是否已存在
      * @param phone 手机号
      * @return true：已存在，false：不存在
@@ -93,4 +122,6 @@ public class ConsumerUserServiceImpl extends ServiceImpl<ConsumerUserMapper, Con
         Long count = this.lambdaQuery().eq(ConsumerUser::getPhone, phone).count();
         return count > 0;
     }
+
+
 }

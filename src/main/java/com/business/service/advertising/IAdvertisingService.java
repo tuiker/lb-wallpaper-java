@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.business.common.response.ResultVO;
 import com.business.common.vo.PageResult;
+import com.business.controller.mobile.advertising.vo.MobileAdvertisingVO;
 import com.business.controller.pc.advertising.dto.AdvAddReqDTO;
 import com.business.controller.pc.advertising.dto.AdvPageReqDTO;
 import com.business.controller.pc.advertising.dto.AdvUpdateReqDTO;
@@ -38,5 +39,9 @@ public interface IAdvertisingService extends IService<Advertising> {
      */
     ResultVO<Boolean> updateAdv(AdvUpdateReqDTO reqDTO);
 
-
+    /**
+     * 获取下载壁纸前的广告信息
+     * @return
+     */
+    MobileAdvertisingVO getDownloadBeforeAdv();
 }
