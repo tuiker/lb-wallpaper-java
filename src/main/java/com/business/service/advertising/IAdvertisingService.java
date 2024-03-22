@@ -40,8 +40,8 @@ public interface IAdvertisingService extends IService<Advertising> {
     ResultVO<Boolean> updateAdv(AdvUpdateReqDTO reqDTO);
 
     /**
-     * 获取下载壁纸前的广告信息
+     * 获取随机广告信息
      * @return
      */
-    MobileAdvertisingVO getDownloadBeforeAdv();
+    MobileAdvertisingVO getRandomAdv(Integer contentsType);
 }

@@ -1,6 +1,7 @@
 package com.business.controller.mobile.advertising;
 
 
+import com.business.common.constant.CommConstant;
 import com.business.common.response.ResultVO;
 import com.business.controller.mobile.advertising.vo.MobileAdvertisingVO;
 import com.business.service.advertising.IAdvertisingService;
@@ -23,7 +24,7 @@ public class AdvertisingController {
     @Operation(summary = "获取下载壁纸前的广告信息")
     @GetMapping("/getDownloadBeforeAdv")
     public ResultVO<MobileAdvertisingVO> getDownloadBeforeAdv(){
-        return ResultVO.success(advertisingService.getDownloadBeforeAdv());
+        return ResultVO.success(advertisingService.getRandomAdv(null));
     }
 
 }

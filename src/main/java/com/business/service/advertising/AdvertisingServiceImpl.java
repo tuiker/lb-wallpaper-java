@@ -64,12 +64,12 @@ public class AdvertisingServiceImpl extends ServiceImpl<AdvertisingMapper, Adver
     }
 
     /**
-     * 获取下载壁纸前的广告信息
+     * 获取随机广告信息
      * @return
      */
     @Override
-    public MobileAdvertisingVO getDownloadBeforeAdv() {
-        return advertisingMapper.getDownloadBeforeAdv();
+    public MobileAdvertisingVO getRandomAdv(Integer contentsType) {
+        return advertisingMapper.getRandomAdv(contentsType);
     }
 
 }

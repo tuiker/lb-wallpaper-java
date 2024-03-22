@@ -7,11 +7,12 @@ import com.business.controller.pc.advertising.dto.AdvPageReqDTO;
 import com.business.controller.pc.advertising.vo.AdvertisingVO;
 import com.business.model.pojo.Advertising;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 @Mapper
 public interface AdvertisingMapper extends BaseMapper<Advertising> {
 
     Page<AdvertisingVO> pageList(Page<Advertising> page, AdvPageReqDTO reqDTO);
 
-    MobileAdvertisingVO getDownloadBeforeAdv();
+    MobileAdvertisingVO getRandomAdv(@Param("contentsType") Integer contentsType);
 }

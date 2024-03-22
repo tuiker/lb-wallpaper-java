@@ -6,7 +6,7 @@ import lombok.Data;
 @Data
 @Schema(title = "广告信息", description = "广告")
 public class MobileAdvertisingVO {
-    private Integer id;
+    private Long id;
 
     @Schema(title = "广告名", description = "广告图片", name = "advName")
     private String advName;

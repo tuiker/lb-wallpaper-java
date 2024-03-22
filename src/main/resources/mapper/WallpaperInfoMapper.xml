@@ -18,7 +18,7 @@
     </select>
 
     <select id="mobilePageList" resultType="com.business.controller.mobile.wallpaper.vo.WallpaperPageVO">
-        SELECT id, `name`, img_url_list, is_collection, download_num FROM wallpaper_info
+        SELECT id, `name`, img_url_list, is_collection, details, download_num FROM wallpaper_info
         <where>
             <if test="null != reqDTO.categoryId">
                 AND category_id = #{reqDTO.categoryId}
