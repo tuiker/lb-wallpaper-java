@@ -3,7 +3,9 @@ package com.business.service.wallpaper;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.business.common.response.ResultVO;
 import com.business.common.vo.PageResult;
+import com.business.controller.mobile.wallpaper.dto.MyCollectPageReqDTO;
 import com.business.controller.mobile.wallpaper.dto.WallpaperPageReqDTO;
+import com.business.controller.mobile.wallpaper.vo.MyCollectRespDTO;
 import com.business.controller.mobile.wallpaper.vo.WallpaperDetailsInfoVO;
 import com.business.controller.mobile.wallpaper.vo.WallpaperPageVO;
 import com.business.controller.pc.wallpaper.dto.WallpaperAddReqDTO;
@@ -53,5 +55,12 @@ public interface IWallpaperInfoService extends IService<WallpaperInfo> {
      * @return
      */
     WallpaperDetailsInfoVO getWallpaperDetailsInfo(Long id);
+
+    /**
+     * 分页查询我的收藏壁纸列表
+     * @param reqDTO
+     * @return
+     */
+    PageResult<MyCollectRespDTO> getMyCollect(MyCollectPageReqDTO reqDTO);
 
 }

@@ -2,13 +2,16 @@ package com.business.service.consumerUser;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.IdUtil;
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.business.auth.entity.LoginUser;
 import com.business.common.response.ResultVO;
+import com.business.common.util.MD5Utils;
 import com.business.common.util.SecurityUtils;
 import com.business.common.util.SmsUtil;
 import com.business.controller.mobile.consumerUser.dto.ConsumerUserUpdateReqDTO;
 import com.business.controller.mobile.consumerUser.dto.LoginReqDTO;
+import com.business.controller.mobile.consumerUser.dto.ResetPasswordReqDTO;
 import com.business.controller.mobile.consumerUser.vo.ConsumerUserVO;
 import com.business.controller.mobile.consumerUser.vo.LoginResultVO;
 import com.business.model.dao.ConsumerUserMapper;
@@ -108,9 +111,31 @@ public class ConsumerUserServiceImpl extends ServiceImpl<ConsumerUserMapper, Con
         return ResultVO.success(true);
     }
 
+    /**
+     * 重设密码
+     * @param reqDTO
+     * @return
+     */
+    @Override
+    public ResultVO<Boolean> resetPassword(ResetPasswordReqDTO reqDTO) {
+        //校验密码长度
+        if(StrUtil.isBlank(reqDTO.getPassword()) || reqDTO.getPassword().length() < 6){
+            return ResultVO.error("Please enter a password with a length greater than or equal to 6");
+        }
+        //校验两次输入的密码是否一致
+        if(!reqDTO.getPassword().equals(reqDTO.getAgainPassword())){
+            return ResultVO.error("The passwords entered twice are inconsistent");
+        }
+        //校验验证码
+        if(!SmsUtil.verifyCodePhone(SecurityUtils.getLoginUser().getPhoneAccount(), reqDTO.getVerifyCode())){
+            return ResultVO.error("Error in verification code");
+        }
+        //修改密码
+        this.lambdaUpdate().set(ConsumerUser::getPassword, MD5Utils.MD5(reqDTO.getPassword()))
+                .eq(ConsumerUser::getId, SecurityUtils.getLoginUserId()).update();
 
-
-
+        return ResultVO.success(true);
+    }
 
 
     /**

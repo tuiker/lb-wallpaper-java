@@ -1,10 +1,12 @@
 package com.business.controller.mobile.consumerUser;
 
 import com.business.common.response.ResultVO;
+import com.business.common.util.SecurityUtils;
 import com.business.common.util.SmsUtil;
 import com.business.common.vo.PageResult;
 import com.business.controller.mobile.consumerUser.dto.ConsumerUserUpdateReqDTO;
 import com.business.controller.mobile.consumerUser.dto.LoginReqDTO;
+import com.business.controller.mobile.consumerUser.dto.ResetPasswordReqDTO;
 import com.business.controller.mobile.consumerUser.vo.ConsumerUserVO;
 import com.business.controller.mobile.consumerUser.vo.LoginResultVO;
 import com.business.service.consumerUser.IConsumerUserService;
@@ -53,6 +55,19 @@ public class ConsumerUserController {
     @PostMapping("/update")
     public ResultVO<Boolean> updateConsumerUserInfo(@RequestBody ConsumerUserUpdateReqDTO reqDTO){
         return consumerUserService.updateConsumerUserInfo(reqDTO);
+    }
+
+    @Operation(summary = "发送重设密码验证码到用户手机")
+    @GetMapping("/sendResetPasswordSms")
+    public ResultVO<Boolean> sendResetPasswordSms(){
+        UniResponse res = SmsUtil.sendVerificationCode(SecurityUtils.getLoginUser().getPhoneAccount());
+        return ResultVO.success(res.status == 200);
+    }
+
+    @Operation(summary = "重设密码")
+    @PostMapping("/resetPassword")
+    public ResultVO<Boolean> resetPassword(@RequestBody ResetPasswordReqDTO reqDTO){
+        return consumerUserService.resetPassword(reqDTO);
     }
 
 }

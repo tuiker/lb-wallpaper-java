@@ -5,6 +5,7 @@ import com.business.common.response.ResultVO;
 import com.business.common.vo.PageResult;
 import com.business.controller.mobile.consumerUser.dto.ConsumerUserUpdateReqDTO;
 import com.business.controller.mobile.consumerUser.dto.LoginReqDTO;
+import com.business.controller.mobile.consumerUser.dto.ResetPasswordReqDTO;
 import com.business.controller.mobile.consumerUser.vo.ConsumerUserVO;
 import com.business.controller.mobile.consumerUser.vo.LoginResultVO;
 import com.business.model.pojo.ConsumerUser;
@@ -41,5 +42,12 @@ public interface IConsumerUserService extends IService<ConsumerUser> {
      * @return
      */
     ResultVO<Boolean> updateConsumerUserInfo(ConsumerUserUpdateReqDTO reqDTO);
+
+    /**
+     * 重设密码
+     * @param reqDTO
+     * @return
+     */
+    ResultVO<Boolean> resetPassword(@RequestBody ResetPasswordReqDTO reqDTO);
 
 }

@@ -3,11 +3,17 @@ package com.business.controller.mobile.wallpaper;
 import cn.hutool.core.bean.BeanUtil;
 import com.business.common.constant.CommConstant;
 import com.business.common.response.ResultVO;
+import com.business.common.util.SecurityUtils;
 import com.business.common.vo.PageResult;
 import com.business.controller.mobile.advertising.vo.MobileAdvertisingVO;
+import com.business.controller.mobile.wallpaper.dto.AddCollectReqDTO;
+import com.business.controller.mobile.wallpaper.dto.MyCollectPageReqDTO;
 import com.business.controller.mobile.wallpaper.dto.WallpaperPageReqDTO;
+import com.business.controller.mobile.wallpaper.vo.MyCollectRespDTO;
 import com.business.controller.mobile.wallpaper.vo.WallpaperDetailsInfoVO;
 import com.business.controller.mobile.wallpaper.vo.WallpaperPageVO;
+import com.business.model.dao.WallpaperCollectRecordMapper;
+import com.business.model.pojo.WallpaperCollectRecord;
 import com.business.service.advertising.IAdvertisingService;
 import com.business.service.wallpaper.IWallpaperInfoService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -15,6 +21,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDateTime;
 
 @Slf4j
 @RestController
@@ -27,6 +35,9 @@ public class WallPaperController {
 
     @Resource
     private IAdvertisingService advertisingService;
+
+    @Resource
+    private WallpaperCollectRecordMapper wallpaperCollectRecordMapper;
 
     @Operation(summary = "获取首页数据")
     @GetMapping("/getHomeData")
@@ -53,6 +64,25 @@ public class WallPaperController {
     @GetMapping("/getWallpaperDetailsInfo")
     public ResultVO<WallpaperDetailsInfoVO> getWallpaperDetailsInfo(@RequestParam("id") Long id){
         return ResultVO.success(wallpaperInfoService.getWallpaperDetailsInfo(id));
+    }
+
+
+    @Operation(summary = "收藏壁纸")
+    @PostMapping("/addCollect")
+    public ResultVO<Boolean> addCollect(@RequestBody AddCollectReqDTO reqDTO) {
+        WallpaperCollectRecord record = new WallpaperCollectRecord();
+        record.setWallpaperId(reqDTO.getWallpaperId());
+        record.setUserId(SecurityUtils.getLoginUserId());
+        record.setCreateTime(LocalDateTime.now());
+        wallpaperCollectRecordMapper.insert(record);
+        return ResultVO.success(true);
+    }
+
+
+    @Operation(summary = "分页查询我的收藏壁纸列表")
+    @GetMapping("/getMyCollect")
+    public ResultVO<PageResult<MyCollectRespDTO>> getMyCollect(MyCollectPageReqDTO reqDTO){
+        return ResultVO.success(wallpaperInfoService.getMyCollect(reqDTO));
     }
 
 }

@@ -10,7 +10,9 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.business.common.response.ResultVO;
 import com.business.common.util.SecurityUtils;
 import com.business.common.vo.PageResult;
+import com.business.controller.mobile.wallpaper.dto.MyCollectPageReqDTO;
 import com.business.controller.mobile.wallpaper.dto.WallpaperPageReqDTO;
+import com.business.controller.mobile.wallpaper.vo.MyCollectRespDTO;
 import com.business.controller.mobile.wallpaper.vo.WallpaperDetailsInfoVO;
 import com.business.controller.mobile.wallpaper.vo.WallpaperPageVO;
 import com.business.controller.pc.category.dto.CategoryAddReqDTO;
@@ -27,6 +29,7 @@ import com.business.model.pojo.Category;
 import com.business.model.pojo.WallpaperInfo;
 import com.business.service.category.ICategoryService;
 import jakarta.annotation.Resource;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -117,5 +120,18 @@ public class WallpaperInfoServiceImpl extends ServiceImpl<WallpaperInfoMapper, W
     @Override
     public WallpaperDetailsInfoVO getWallpaperDetailsInfo(Long id) {
         return wallpaperInfoMapper.getWallpaperDetailsInfo(id);
+    }
+
+
+    /**
+     * 分页查询我的收藏壁纸列表
+     * @param reqDTO
+     * @return
+     */
+    @Override
+    public PageResult<MyCollectRespDTO> getMyCollect(MyCollectPageReqDTO reqDTO) {
+        Page<MyCollectRespDTO> page = wallpaperInfoMapper.getMyCollect(new Page<>(reqDTO.getPage(), reqDTO.getPageSize()),
+                SecurityUtils.getLoginUserId());
+        return new PageResult<>(page.getRecords(), page.getTotal());
     }
 }

@@ -31,6 +31,9 @@ public class WallpaperDetailsInfoVO {
     @Schema(title = "下载量", description = "下载量", name = "downloadNum")
     private Integer downloadNum;
 
+    @Schema(title = "收藏量", description = "收藏量", name = "collectNum")
+    private Integer collectNum;
+
     @Schema(title = "用户ID", description = "用户ID", name = "userId")
     private Long userId;
 

@@ -31,10 +31,19 @@
     </select>
 
     <select id="getWallpaperDetailsInfo" resultType="com.business.controller.mobile.wallpaper.vo.WallpaperDetailsInfoVO">
-        SELECT a.*, b.name AS categoryName, c.id AS userId, c.user_name, c.user_img
+        SELECT a.*, b.name AS categoryName, c.id AS userId, c.user_name, c.user_img, COUNT(d.id) AS collectNum
         FROM wallpaper_info AS a
         LEFT JOIN category AS b ON a.category_id = b.id
         LEFT JOIN sys_user AS c ON c.id = a.create_id
+        LEFT JOIN wallpaper_collect_record AS d ON d.wallpaper_id = a.id
         WHERE a.id = #{id}
+    </select>
+
+    <select id="getMyCollect" resultType="com.business.controller.mobile.wallpaper.vo.MyCollectRespDTO">
+        SELECT b.*
+        FROM wallpaper_collect_record AS a
+        LEFT JOIN wallpaper_info AS b ON b.id = a.wallpaper_id
+        WHERE a.user_id = #{userId}
+        ORDER BY a.create_time DESC
     </select>
 </mapper>
