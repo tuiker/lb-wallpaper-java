@@ -3,17 +3,21 @@
 <mapper namespace="com.business.model.dao.CategoryMapper">
 
     <select id="pageList" resultType="com.business.controller.pc.category.vo.CategoryVO">
-        SELECT a.id, a.name, a.details, a.create_time,
-               COUNT(b.id) AS wallpaperNum, SUM(b.download_num) AS downloadNum
+        SELECT a.id, a.name, a.details, a.create_time, COUNT(b.id) AS wallpaperNum, SUM(b.download_num) AS downloadNum
         FROM category AS a
-        LEFT JOIN wallpaper_info AS b
+        LEFT JOIN (
+            SELECT c.id, c.category_id, COUNT(d.id) AS download_num
+            FROM wallpaper_info AS c
+            LEFT JOIN download_record AS d ON d.wallpaper_id = c.id
+            GROUP BY c.id
+        ) AS b
         ON a.id = b.category_id
         <where>
             <if test="reqDTO.startTime != null and reqDTO.startTime != '' and reqDTO.endTime != null and reqDTO.endTime != ''">
-                AND (create_time <![CDATA[ >= ]]> #{reqDTO.startTime} AND create_time <![CDATA[ <= ]]> #{reqDTO.endTime})
+                AND (a.create_time <![CDATA[ >= ]]> #{reqDTO.startTime} AND a.create_time <![CDATA[ <= ]]> #{reqDTO.endTime})
             </if>
             <if test="null != reqDTO.name and '' != reqDTO.name">
-                AND `name` LIKE #{reqDTO.name}
+                AND a.`name` LIKE #{reqDTO.name}
             </if>
         </where>
         GROUP BY a.id

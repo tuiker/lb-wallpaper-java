@@ -2,9 +2,11 @@ package com.business.controller.mobile.wallpaper;
 
 import cn.hutool.core.bean.BeanUtil;
 import com.business.common.constant.CommConstant;
+import com.business.common.enums.TriggerTypeEnums;
 import com.business.common.response.ResultVO;
 import com.business.common.util.SecurityUtils;
 import com.business.common.vo.PageResult;
+import com.business.controller.mobile.advTriggerRecord.dto.AdvTriggerRecordAddReqDTO;
 import com.business.controller.mobile.advertising.vo.MobileAdvertisingVO;
 import com.business.controller.mobile.wallpaper.dto.AddCollectReqDTO;
 import com.business.controller.mobile.wallpaper.dto.MyCollectPageReqDTO;
@@ -14,6 +16,7 @@ import com.business.controller.mobile.wallpaper.vo.WallpaperDetailsInfoVO;
 import com.business.controller.mobile.wallpaper.vo.WallpaperPageVO;
 import com.business.model.dao.WallpaperCollectRecordMapper;
 import com.business.model.pojo.WallpaperCollectRecord;
+import com.business.service.advTriggerRecord.IAdvTriggerRecordService;
 import com.business.service.advertising.IAdvertisingService;
 import com.business.service.wallpaper.IWallpaperInfoService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -23,6 +26,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.util.concurrent.*;
 
 @Slf4j
 @RestController
@@ -39,6 +43,9 @@ public class WallPaperController {
     @Resource
     private WallpaperCollectRecordMapper wallpaperCollectRecordMapper;
 
+    @Resource
+    private IAdvTriggerRecordService advTriggerRecordService;
+
     @Operation(summary = "获取首页数据")
     @GetMapping("/getHomeData")
     public ResultVO<PageResult<WallpaperPageVO>> getHomeData(WallpaperPageReqDTO reqDTO){
@@ -50,6 +57,12 @@ public class WallPaperController {
         adv.setIsAdv(true);
 
         result.getList().add(adv);
+
+        //另起线程保存广告展示记录
+        new Thread(() -> {
+            AdvTriggerRecordAddReqDTO triggerRecordAddReqDTO = new AdvTriggerRecordAddReqDTO(adv.getId(), TriggerTypeEnums.SHOW.getCode());
+            advTriggerRecordService.addAdvTriggerRecord(triggerRecordAddReqDTO);
+        }).start();
 
         return ResultVO.success(result);
     }

@@ -3,22 +3,21 @@ package com.business.common.enums;
 import lombok.Getter;
 
 /**
- * @Author: GaoLu
- * @Date: 2023-10-18 15:03
- * @Description: 游戏类型枚举类
+ * @Author: yxf
+ * @Description: 广告触发类型枚举类
  */
 @Getter
 public enum TriggerTypeEnums {
 
-    REQUESTS(1, "1","页面请求"),
+    SHOW(1, "1","广告展示"),
 
-    DOWNLAND(2, "2","应用下载"),
+    PLAY(2, "2","广告播放"),
 
-    OPEN(3,"3", "打开应用");
+    CLICK(3,"3", "广告点击");
 
-    private int code;
-    private String codeStr;
-    private String msg;
+    private final Integer code;
+    private final String codeStr;
+    private final String msg;
 
     TriggerTypeEnums(int code, String codeStr , String msg) {
         this.code = code;

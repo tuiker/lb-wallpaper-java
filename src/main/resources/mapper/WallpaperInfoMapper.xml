@@ -3,22 +3,29 @@
 <mapper namespace="com.business.model.dao.WallpaperInfoMapper">
 
     <select id="pageList" resultType="com.business.controller.pc.wallpaper.vo.WallpaperInfoVO">
-        SELECT a.*, b.name AS categoryName FROM wallpaper_info AS a LEFT JOIN category AS b ON a.category_id = b.id
+        SELECT a.id, a.name, a.img_url_list, a.is_collection, a.details, a.category_id, a.create_time,
+               b.name AS categoryName, COUNT(c.id) AS download_num
+        FROM wallpaper_info AS a
+        LEFT JOIN category AS b ON a.category_id = b.id
+        LEFT JOIN download_record AS c ON c.wallpaper_id = a.id
         <where>
             <if test="null != reqDTO.name and '' != reqDTO.name">
                 AND a.`name` LIKE #{reqDTO.name}
             </if>
         </where>
+        GROUP BY a.id
         <if test="null != reqDTO.sortType and 1 == reqDTO.sortType">
             ORDER BY a.create_time DESC
         </if>
         <if test="null != reqDTO.sortType and 2 == reqDTO.sortType">
-            ORDER BY a.download_num DESC
+            ORDER BY download_num DESC
         </if>
     </select>
 
     <select id="mobilePageList" resultType="com.business.controller.mobile.wallpaper.vo.WallpaperPageVO">
-        SELECT id, `name`, img_url_list, is_collection, details, download_num FROM wallpaper_info
+        SELECT a.id, a.`name`, a.img_url_list, a.is_collection, a.details, COUNT(b.id) AS download_num
+        FROM wallpaper_info AS a
+        LEFT JOIN download_record AS b ON b.wallpaper_id = a.id
         <where>
             <if test="null != reqDTO.categoryId">
                 AND category_id = #{reqDTO.categoryId}
@@ -27,15 +34,19 @@
                 AND `name` LIKE #{reqDTO.name}
             </if>
         </where>
+        GROUP BY a.id
         ORDER BY download_num DESC
     </select>
 
     <select id="getWallpaperDetailsInfo" resultType="com.business.controller.mobile.wallpaper.vo.WallpaperDetailsInfoVO">
-        SELECT a.*, b.name AS categoryName, c.id AS userId, c.user_name, c.user_img, COUNT(d.id) AS collectNum
+        SELECT a.id, a.name, a.img_url_list, a.is_collection, a.details, a.category_id
+               b.name AS categoryName, c.id AS userId, c.user_name, c.user_img,
+               COUNT(d.id) AS collectNum, COUNT(e.id) AS download_num
         FROM wallpaper_info AS a
         LEFT JOIN category AS b ON a.category_id = b.id
         LEFT JOIN sys_user AS c ON c.id = a.create_id
         LEFT JOIN wallpaper_collect_record AS d ON d.wallpaper_id = a.id
+        LEFT JOIN download_record AS e ON e.wallpaper_id = a.id
         WHERE a.id = #{id}
     </select>
 
