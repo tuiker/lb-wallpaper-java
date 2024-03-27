@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.business.model.dao.FeedbackRecordMapper">
+
+    <select id="pageList" resultType="com.business.controller.pc.feedbackRecord.vo.FeedbackRecordVO">
+        SELECT a.*, b.nickname, b.phone
+        FROM feedback_record AS a
+        LEFT JOIN consumer_user AS b ON a.user_id = b.id
+        <where>
+            <if test="reqDTO.feedbackType != null">
+                a.feedback_type = #{reqDTO.feedbackType}
+            </if>
+        </where>
+        ORDER BY a.create_time DESC
+    </select>
+
+</mapper>
