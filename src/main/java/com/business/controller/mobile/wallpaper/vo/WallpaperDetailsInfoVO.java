@@ -37,10 +37,16 @@ public class WallpaperDetailsInfoVO {
     @Schema(title = "用户ID", description = "用户ID", name = "userId")
     private Long userId;
 
-    @Schema(title = "作者账号", description = "作者账号", name = "userName")
-    private String userName;
+    @Schema(title = "作者昵称", description = "作者昵称", name = "nickname")
+    private String nickname;
 
-    @Schema(title = "作者头像", description = "作者头像", name = "userImg")
-    private String userImg;
+    @Schema(title = "作者头像", description = "作者头像", name = "headImg")
+    private String headImg;
+
+    @Schema(title = "是否已收藏", description = "是否已收藏，true：是，false：否", name = "isCollect")
+    private Boolean isCollect = false;
+
+    @Schema(title = "收藏夹ID", description = "收藏夹ID", name = "favoritesId")
+    private Long favoritesId;
 
 }

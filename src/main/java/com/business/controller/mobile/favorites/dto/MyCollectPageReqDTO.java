@@ -1,4 +1,4 @@
-package com.business.controller.mobile.wallpaper.dto;
+package com.business.controller.mobile.favorites.dto;
 
 import com.business.model.base.PageDaoEntity;
 import io.swagger.v3.oas.annotations.media.Schema;

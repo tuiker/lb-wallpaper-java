@@ -15,12 +15,17 @@ import com.business.controller.mobile.consumerUser.dto.ResetPasswordReqDTO;
 import com.business.controller.mobile.consumerUser.vo.ConsumerUserVO;
 import com.business.controller.mobile.consumerUser.vo.LoginResultVO;
 import com.business.model.dao.ConsumerUserMapper;
+import com.business.model.dao.FavoritesMapper;
 import com.business.model.pojo.ConsumerUser;
+import com.business.model.pojo.Favorites;
 import com.business.model.redis.LoginUserRedisDAO;
+import com.business.service.favorites.IFavoritesService;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 用户 Service接口实现类
@@ -31,6 +36,9 @@ public class ConsumerUserServiceImpl extends ServiceImpl<ConsumerUserMapper, Con
 
     @Resource
     private LoginUserRedisDAO loginUserRedisDAO;
+
+    @Resource
+    private IFavoritesService favoritesService;
 
 
     /**
@@ -55,6 +63,9 @@ public class ConsumerUserServiceImpl extends ServiceImpl<ConsumerUserMapper, Con
             user.setNickname(reqDTO.getPhone());
             user.setRegisterTime(now);
             this.save(user);
+
+            //创建默认收藏夹
+            this.createDefaultFavorites(user.getId());
         }else {
             //用户存在，查询出用户信息
             user = this.lambdaQuery().eq(ConsumerUser::getPhone, reqDTO.getPhone()).one();
@@ -74,6 +85,20 @@ public class ConsumerUserServiceImpl extends ServiceImpl<ConsumerUserMapper, Con
         LoginResultVO loginResultVO = BeanUtil.copyProperties(user, LoginResultVO.class);
         loginResultVO.setToken(token);
         return ResultVO.success(loginResultVO);
+    }
+
+    /**
+     * 用户注册后创建默认收藏夹
+     * @param userId
+     */
+    private void createDefaultFavorites(Long userId){
+        LocalDateTime now = LocalDateTime.now();
+        List<Favorites> list = new ArrayList<>();
+        list.add(new Favorites(userId, "風景壁紙", "", now));
+        list.add(new Favorites(userId, "動物壁紙", "", now));
+        list.add(new Favorites(userId, "かわいい壁紙", "", now));
+        list.add(new Favorites(userId, "壁紙を手描きする", "", now));
+        favoritesService.saveBatch(list);
     }
 
     /**

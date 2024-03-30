@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.business.model.dao.FavoritesMapper">
+
+    <select id="getMyCollect" resultType="com.business.controller.mobile.favorites.vo.MyCollectRespVO">
+        SELECT
+            a.*,
+            d.img_url_list
+        FROM
+            favorites AS a
+            LEFT JOIN (
+            SELECT
+                b.favorites_id,
+                b.create_time,
+                REPLACE ( GROUP_CONCAT( c.img_url_list ORDER BY b.create_time DESC SEPARATOR ',' ), '],[', ',' ) AS img_url_list
+            FROM
+                wallpaper_collect_record AS b
+                LEFT JOIN wallpaper_info AS c ON c.id = b.wallpaper_id
+            WHERE
+                b.user_id = #{userId}
+            ) AS d ON d.favorites_id = a.id
+        WHERE
+            a.user_id = #{userId}
+    </select>
+
+</mapper>

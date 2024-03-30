@@ -1,6 +1,7 @@
 package com.business.service.feedbackRecord;
 
 import cn.hutool.core.bean.BeanUtil;
+import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.business.common.response.ResultVO;
@@ -33,6 +34,7 @@ public class FeedbackRecordServiceImpl extends ServiceImpl<FeedbackRecordMapper,
         FeedbackRecord record = BeanUtil.copyProperties(reqDTO, FeedbackRecord.class);
         record.setUserId(SecurityUtils.getLoginUserId());
         record.setCreateTime(LocalDateTime.now());
+        record.setFeedbackImgList(JSON.toJSONString(record.getFeedbackImgList().split(";")));
         this.save(record);
         return ResultVO.success(true);
     }

@@ -83,7 +83,8 @@ public class FileUploadServiceImpl implements IFileUploadService {
                                 .replaceAll(filePath, mobilePath);
 
                     }else {//开发路径，替换为本地文件服务器访问路径
-                        saveDBPath = devfilePath + saveDBPath.substring(saveDBPath.indexOf("\\lb-wallpaper-java"));
+                        saveDBPath = saveDBPath.replace("\\", "/");
+                        saveDBPath = devfilePath + saveDBPath.substring(saveDBPath.indexOf("lb-wallpaper-java"));
                     }
                     urlList.add(saveDBPath);
                 } catch (Exception e) {

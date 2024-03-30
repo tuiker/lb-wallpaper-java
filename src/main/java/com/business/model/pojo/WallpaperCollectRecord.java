@@ -26,6 +26,9 @@ public class WallpaperCollectRecord {
     /** 用户ID */
     private Long userId;
 
+    /** 收藏夹ID */
+    private Long favoritesId;
+
     /**
      * 创建时间
      */

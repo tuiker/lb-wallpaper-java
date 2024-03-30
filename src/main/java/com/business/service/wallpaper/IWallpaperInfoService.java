@@ -3,9 +3,8 @@ package com.business.service.wallpaper;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.business.common.response.ResultVO;
 import com.business.common.vo.PageResult;
-import com.business.controller.mobile.wallpaper.dto.MyCollectPageReqDTO;
+import com.business.controller.mobile.wallpaper.dto.WallpaperPageInFavoritesReqDTO;
 import com.business.controller.mobile.wallpaper.dto.WallpaperPageReqDTO;
-import com.business.controller.mobile.wallpaper.vo.MyCollectRespDTO;
 import com.business.controller.mobile.wallpaper.vo.WallpaperDetailsInfoVO;
 import com.business.controller.mobile.wallpaper.vo.WallpaperPageVO;
 import com.business.controller.pc.wallpaper.dto.WallpaperAddReqDTO;
@@ -13,7 +12,6 @@ import com.business.controller.pc.wallpaper.dto.WallpaperInfoPageReqDTO;
 import com.business.controller.pc.wallpaper.dto.WallpaperUpdateReqDTO;
 import com.business.controller.pc.wallpaper.vo.WallpaperInfoVO;
 import com.business.model.pojo.WallpaperInfo;
-import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  * 壁纸信息 Service接口
@@ -57,10 +55,10 @@ public interface IWallpaperInfoService extends IService<WallpaperInfo> {
     WallpaperDetailsInfoVO getWallpaperDetailsInfo(Long id);
 
     /**
-     * 分页查询我的收藏壁纸列表
+     * 根据收藏夹ID分页查询该收藏夹中的壁纸
      * @param reqDTO
      * @return
      */
-    PageResult<MyCollectRespDTO> getMyCollect(MyCollectPageReqDTO reqDTO);
+    PageResult<WallpaperPageVO> pageWallpaperInFavorites(WallpaperPageInFavoritesReqDTO reqDTO);
 
 }

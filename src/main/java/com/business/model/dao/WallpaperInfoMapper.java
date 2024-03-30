@@ -1,9 +1,8 @@
 package com.business.model.dao;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.business.controller.mobile.wallpaper.dto.MyCollectPageReqDTO;
+import com.business.controller.mobile.wallpaper.dto.WallpaperPageInFavoritesReqDTO;
 import com.business.controller.mobile.wallpaper.dto.WallpaperPageReqDTO;
-import com.business.controller.mobile.wallpaper.vo.MyCollectRespDTO;
 import com.business.controller.mobile.wallpaper.vo.WallpaperDetailsInfoVO;
 import com.business.controller.mobile.wallpaper.vo.WallpaperPageVO;
 import com.business.controller.pc.wallpaper.dto.WallpaperInfoPageReqDTO;
@@ -22,6 +21,6 @@ public interface WallpaperInfoMapper extends MPJBaseMapper<WallpaperInfo> {
 
     WallpaperDetailsInfoVO getWallpaperDetailsInfo(@Param("id") Long id);
 
-    Page<MyCollectRespDTO> getMyCollect(Page<WallpaperInfo> page, @Param("userId") Long userId);
+    Page<WallpaperPageVO> pageWallpaperInFavorites(Page<WallpaperInfo> page, WallpaperPageInFavoritesReqDTO reqDTO);
 
 }

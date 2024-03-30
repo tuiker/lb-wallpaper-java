@@ -39,22 +39,34 @@
     </select>
 
     <select id="getWallpaperDetailsInfo" resultType="com.business.controller.mobile.wallpaper.vo.WallpaperDetailsInfoVO">
-        SELECT a.id, a.name, a.img_url_list, a.is_collection, a.details, a.category_id
-               b.name AS categoryName, c.id AS userId, c.user_name, c.user_img,
-               COUNT(d.id) AS collectNum, COUNT(e.id) AS download_num
+        SELECT a.id, a.name, a.img_url_list, a.is_collection, a.details, a.category_id,
+               b.name AS categoryName, c.id AS userId, c.nickname, c.head_img,
+               COUNT(DISTINCT d.id) AS collectNum, COUNT(DISTINCT e.id) AS download_num
         FROM wallpaper_info AS a
         LEFT JOIN category AS b ON a.category_id = b.id
-        LEFT JOIN sys_user AS c ON c.id = a.create_id
+        LEFT JOIN consumer_user AS c ON c.id = a.create_id
         LEFT JOIN wallpaper_collect_record AS d ON d.wallpaper_id = a.id
         LEFT JOIN download_record AS e ON e.wallpaper_id = a.id
         WHERE a.id = #{id}
     </select>
 
-    <select id="getMyCollect" resultType="com.business.controller.mobile.wallpaper.vo.MyCollectRespDTO">
+    <select id="getMyCollect" resultType="com.business.controller.mobile.favorites.vo.MyCollectRespVO">
         SELECT b.*
         FROM wallpaper_collect_record AS a
         LEFT JOIN wallpaper_info AS b ON b.id = a.wallpaper_id
         WHERE a.user_id = #{userId}
         ORDER BY a.create_time DESC
+    </select>
+
+    <select id="pageWallpaperInFavorites" resultType="com.business.controller.mobile.wallpaper.vo.WallpaperPageVO">
+        SELECT b.id, b.`name`, b.img_url_list, b.is_collection, b.details, COUNT(c.id) AS download_num
+        FROM wallpaper_collect_record AS a
+        LEFT JOIN wallpaper_info AS b ON b.id = a.wallpaper_id
+        LEFT JOIN download_record AS c ON c.wallpaper_id = a.wallpaper_id
+        WHERE
+            a.favorites_id = #{reqDTO.favoritesId}
+        GROUP BY a.id
+        ORDER BY
+            a.create_time
     </select>
 </mapper>

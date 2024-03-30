@@ -31,7 +31,6 @@ public class SecurityAutoConfiguration {
             //过滤部分APP端壁纸信息请求
             "/mobile/wallpaper/getHomeData",
             "/mobile/wallpaper/pageList",
-            "/mobile/wallpaper/getWallpaperDetailsInfo",
 
             "/mobile/category/**", //过滤用户端 - 壁纸分类请求
             "/comm/**" //过滤公共请求

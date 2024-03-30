@@ -4,32 +4,26 @@ import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.business.common.response.ResultVO;
 import com.business.common.util.SecurityUtils;
 import com.business.common.vo.PageResult;
-import com.business.controller.mobile.wallpaper.dto.MyCollectPageReqDTO;
+import com.business.controller.mobile.wallpaper.dto.WallpaperPageInFavoritesReqDTO;
 import com.business.controller.mobile.wallpaper.dto.WallpaperPageReqDTO;
-import com.business.controller.mobile.wallpaper.vo.MyCollectRespDTO;
 import com.business.controller.mobile.wallpaper.vo.WallpaperDetailsInfoVO;
 import com.business.controller.mobile.wallpaper.vo.WallpaperPageVO;
-import com.business.controller.pc.category.dto.CategoryAddReqDTO;
-import com.business.controller.pc.category.dto.CategoryPageReqDTO;
-import com.business.controller.pc.category.dto.CategoryUpdateReqDTO;
-import com.business.controller.pc.category.vo.CategoryVO;
 import com.business.controller.pc.wallpaper.dto.WallpaperAddReqDTO;
 import com.business.controller.pc.wallpaper.dto.WallpaperInfoPageReqDTO;
 import com.business.controller.pc.wallpaper.dto.WallpaperUpdateReqDTO;
 import com.business.controller.pc.wallpaper.vo.WallpaperInfoVO;
-import com.business.model.dao.CategoryMapper;
+import com.business.model.dao.WallpaperCollectRecordMapper;
 import com.business.model.dao.WallpaperInfoMapper;
-import com.business.model.pojo.Category;
+import com.business.model.pojo.WallpaperCollectRecord;
 import com.business.model.pojo.WallpaperInfo;
-import com.business.service.category.ICategoryService;
+import com.business.service.favorites.IFavoritesService;
 import jakarta.annotation.Resource;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -43,6 +37,12 @@ public class WallpaperInfoServiceImpl extends ServiceImpl<WallpaperInfoMapper, W
 
     @Resource
     private WallpaperInfoMapper wallpaperInfoMapper;
+
+    @Resource
+    private IFavoritesService favoritesService;
+
+    @Resource
+    private WallpaperCollectRecordMapper wallpaperCollectRecordMapper;
 
     /**
      * 分页查询壁纸信息
@@ -119,19 +119,30 @@ public class WallpaperInfoServiceImpl extends ServiceImpl<WallpaperInfoMapper, W
      */
     @Override
     public WallpaperDetailsInfoVO getWallpaperDetailsInfo(Long id) {
-        return wallpaperInfoMapper.getWallpaperDetailsInfo(id);
+        WallpaperDetailsInfoVO detailsInfo = wallpaperInfoMapper.getWallpaperDetailsInfo(id);
+
+        WallpaperCollectRecord record = wallpaperCollectRecordMapper.selectOne(
+                new LambdaUpdateWrapper<WallpaperCollectRecord>()
+                        .eq(WallpaperCollectRecord::getUserId, SecurityUtils.getLoginUserId())
+                        .eq(WallpaperCollectRecord::getWallpaperId, id)
+        );
+        if(null != record){
+            detailsInfo.setIsCollect(true);
+            detailsInfo.setFavoritesId(record.getFavoritesId());
+        }
+        return detailsInfo;
     }
 
 
     /**
-     * 分页查询我的收藏壁纸列表
+     * 根据收藏夹ID分页查询该收藏夹中的壁纸
      * @param reqDTO
      * @return
      */
     @Override
-    public PageResult<MyCollectRespDTO> getMyCollect(MyCollectPageReqDTO reqDTO) {
-        Page<MyCollectRespDTO> page = wallpaperInfoMapper.getMyCollect(new Page<>(reqDTO.getPage(), reqDTO.getPageSize()),
-                SecurityUtils.getLoginUserId());
+    public PageResult<WallpaperPageVO> pageWallpaperInFavorites(WallpaperPageInFavoritesReqDTO reqDTO) {
+        Page<WallpaperPageVO> page = baseMapper.pageWallpaperInFavorites(new Page<>(reqDTO.getPage(), reqDTO.getPageSize()), reqDTO);
         return new PageResult<>(page.getRecords(), page.getTotal());
     }
+
 }
