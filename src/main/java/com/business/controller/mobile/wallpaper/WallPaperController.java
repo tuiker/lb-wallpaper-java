@@ -43,16 +43,17 @@ public class WallPaperController {
 
         //随机获取一个图片类型广告，放入壁纸集合中
         MobileAdvertisingVO randomAdv = advertisingService.getRandomAdv(CommConstant.CONTENTS_TYPE_IMG);
-        WallpaperPageVO adv = BeanUtil.copyProperties(randomAdv, WallpaperPageVO.class);
-        adv.setIsAdv(true);
+        if(null != randomAdv){
+            WallpaperPageVO adv = BeanUtil.copyProperties(randomAdv, WallpaperPageVO.class);
+            adv.setIsAdv(true);
+            result.getList().add(adv);
 
-        result.getList().add(adv);
-
-        //另起线程保存广告展示记录
-        new Thread(() -> {
-            AdvTriggerRecordAddReqDTO triggerRecordAddReqDTO = new AdvTriggerRecordAddReqDTO(adv.getId(), TriggerTypeEnums.SHOW.getCode());
-            advTriggerRecordService.addAdvTriggerRecord(triggerRecordAddReqDTO);
-        }).start();
+            //另起线程保存广告展示记录
+            new Thread(() -> {
+                AdvTriggerRecordAddReqDTO triggerRecordAddReqDTO = new AdvTriggerRecordAddReqDTO(adv.getId(), TriggerTypeEnums.SHOW.getCode());
+                advTriggerRecordService.addAdvTriggerRecord(triggerRecordAddReqDTO);
+            }).start();
+        }
 
         return ResultVO.success(result);
     }
