@@ -27,6 +27,7 @@ public class SecurityAutoConfiguration {
             "/pc/user/userLogin", //过滤登录请求
             "/mobile/consumer/sendRegisterOrLoginSms", //过滤发送注册或登录验证码到用户手机请求
             "/mobile/consumer/consumerLogin", //过滤登录请求
+            "/mobile/consumer/consumerLoginByPassword", //过滤登录请求
 
             //过滤部分APP端壁纸信息请求
             "/mobile/wallpaper/getHomeData",

@@ -5,6 +5,7 @@ import com.business.common.util.SecurityUtils;
 import com.business.common.util.SmsUtil;
 import com.business.common.vo.PageResult;
 import com.business.controller.mobile.consumerUser.dto.ConsumerUserUpdateReqDTO;
+import com.business.controller.mobile.consumerUser.dto.LoginByPasswordReqDTO;
 import com.business.controller.mobile.consumerUser.dto.LoginReqDTO;
 import com.business.controller.mobile.consumerUser.dto.ResetPasswordReqDTO;
 import com.business.controller.mobile.consumerUser.vo.ConsumerUserVO;
@@ -33,10 +34,16 @@ public class ConsumerUserController {
         return ResultVO.success(res.status == 200);
     }
 
-    @Operation(summary = "用户登录")
+    @Operation(summary = "用户登录-验证码登录")
     @PostMapping("/consumerLogin")
     public ResultVO<LoginResultVO> consumerLogin(@RequestBody LoginReqDTO reqDTO){
         return consumerUserService.consumerLogin(reqDTO);
+    }
+
+    @Operation(summary = "用户登录-密码登录")
+    @PostMapping("/consumerLoginByPassword")
+    public ResultVO<LoginResultVO> consumerLoginByPassword(@RequestBody LoginByPasswordReqDTO reqDTO){
+        return consumerUserService.consumerLoginByPassword(reqDTO);
     }
 
     @Operation(summary = "用户登出")
