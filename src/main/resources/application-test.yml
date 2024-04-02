@@ -1,9 +1,9 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://65.49.215.185:3306/lb-wallpaper
-    username: tggame
-    password: aJ4zYxZczcRG8HTY
+    url: jdbc:mysql://localhost:3306/lb-wallpaper
+    username: root
+    password: 123456
 
   #  redis配置
   data:

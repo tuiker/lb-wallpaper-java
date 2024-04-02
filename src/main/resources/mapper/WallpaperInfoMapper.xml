@@ -23,9 +23,10 @@
     </select>
 
     <select id="mobilePageList" resultType="com.business.controller.mobile.wallpaper.vo.WallpaperPageVO">
-        SELECT a.id, a.`name`, a.img_url_list, a.is_collection, a.details, COUNT(b.id) AS download_num
+        SELECT a.id, a.`name`, a.img_url_list, a.is_collection, a.details, COUNT(b.id) AS download_num, c.nickname
         FROM wallpaper_info AS a
         LEFT JOIN download_record AS b ON b.wallpaper_id = a.id
+        LEFT JOIN consumer_user AS c ON c.id = a.create_id
         <where>
             <if test="null != reqDTO.categoryId">
                 AND category_id = #{reqDTO.categoryId}

@@ -25,6 +25,9 @@ public class WallpaperPageVO {
     @Schema(title = "下载量", description = "下载量", name = "downloadNum")
     private Integer downloadNum;
 
+    @Schema(title = "作者昵称", description = "作者昵称", name = "nickname")
+    private String nickname;
+
     @Schema(title = "是否为广告", description = "是否为广告，false：否，true：是", name = "isAdv")
     private Boolean isAdv;
 
