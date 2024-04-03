@@ -23,7 +23,7 @@ public class MybatisPlusConfig {
         paginationInnerInterceptor.setMaxLimit(-1L);
         paginationInnerInterceptor.setDbType(DbType.MYSQL);
         paginationInnerInterceptor.setOptimizeJoin(true);
-        paginationInnerInterceptor.setOverflow(true);
+        paginationInnerInterceptor.setOverflow(false);
         return paginationInnerInterceptor;
     }
     @Bean
