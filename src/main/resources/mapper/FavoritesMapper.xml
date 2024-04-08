@@ -12,7 +12,7 @@
             SELECT
                 b.favorites_id,
                 b.create_time,
-                REPLACE ( GROUP_CONCAT( c.img_url_list ORDER BY b.create_time DESC SEPARATOR ',' ), '],[', ',' ) AS img_url_list
+                CONCAT(CONCAT('[', SUBSTRING_INDEX(GROUP_CONCAT( REPLACE(REPLACE(c.img_url_list, '[', ''), ']', '') ORDER BY b.create_time DESC SEPARATOR ',' ), ',', 4)), ']') AS img_url_list
             FROM
                 wallpaper_collect_record AS b
                 LEFT JOIN wallpaper_info AS c ON c.id = b.wallpaper_id
