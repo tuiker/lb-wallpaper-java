@@ -18,6 +18,7 @@
                 LEFT JOIN wallpaper_info AS c ON c.id = b.wallpaper_id
             WHERE
                 b.user_id = #{userId}
+            GROUP BY b.favorites_id
             ) AS d ON d.favorites_id = a.id
         WHERE
             a.user_id = #{userId}
