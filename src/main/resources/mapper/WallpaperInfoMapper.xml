@@ -3,7 +3,7 @@
 <mapper namespace="com.business.model.dao.WallpaperInfoMapper">
 
     <select id="pageList" resultType="com.business.controller.pc.wallpaper.vo.WallpaperInfoVO">
-        SELECT a.id, a.name, a.img_url_list, a.is_collection, a.details, a.category_id, a.create_time,
+        SELECT a.id, a.name, a.cover_image, a.img_url_list, a.is_collection, a.details, a.category_id, a.create_time,
                b.name AS categoryName, COUNT(c.id) AS download_num
         FROM wallpaper_info AS a
         LEFT JOIN category AS b ON a.category_id = b.id
@@ -23,7 +23,7 @@
     </select>
 
     <select id="mobilePageList" resultType="com.business.controller.mobile.wallpaper.vo.WallpaperPageVO">
-        SELECT a.id, a.`name`, a.img_url_list, a.is_collection, a.details, COUNT(b.id) AS download_num, c.nickname
+        SELECT a.id, a.`name`, a.cover_image, a.img_url_list, a.is_collection, a.details, COUNT(b.id) AS download_num, c.nickname
         FROM wallpaper_info AS a
         LEFT JOIN download_record AS b ON b.wallpaper_id = a.id
         LEFT JOIN consumer_user AS c ON c.id = a.create_id
@@ -40,7 +40,7 @@
     </select>
 
     <select id="getWallpaperDetailsInfo" resultType="com.business.controller.mobile.wallpaper.vo.WallpaperDetailsInfoVO">
-        SELECT a.id, a.name, a.img_url_list, a.is_collection, a.details, a.category_id,
+        SELECT a.id, a.name, a.cover_image, a.img_url_list, a.is_collection, a.details, a.category_id,
                b.name AS categoryName, c.id AS userId, c.nickname, c.head_img,
                COUNT(DISTINCT d.id) AS collectNum, COUNT(DISTINCT e.id) AS download_num
         FROM wallpaper_info AS a
@@ -60,7 +60,7 @@
     </select>
 
     <select id="pageWallpaperInFavorites" resultType="com.business.controller.mobile.wallpaper.vo.WallpaperPageVO">
-        SELECT b.id, b.`name`, b.img_url_list, b.is_collection, b.details, COUNT(c.id) AS download_num
+        SELECT b.id, b.`name`, b.cover_image, b.img_url_list, b.is_collection, b.details, COUNT(c.id) AS download_num
         FROM wallpaper_collect_record AS a
         LEFT JOIN wallpaper_info AS b ON b.id = a.wallpaper_id
         LEFT JOIN download_record AS c ON c.wallpaper_id = a.wallpaper_id

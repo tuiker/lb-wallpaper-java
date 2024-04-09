@@ -91,6 +91,7 @@ CREATE TABLE `lb-wallpaper`.`download_record`  (
                                     `id` bigint NOT NULL AUTO_INCREMENT COMMENT '主键ID',
                                     `user_id` bigint NOT NULL COMMENT '用户ID',
                                     `wallpaper_id` bigint NOT NULL COMMENT '壁纸ID',
+                                    `wallpaper_download_url` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '壁纸下载路径',
                                     `create_time` datetime NOT NULL COMMENT '创建时间',
                                     PRIMARY KEY (`id`) USING BTREE,
                                     INDEX `idx_user_id`(`user_id` ASC) USING BTREE,
@@ -253,6 +254,7 @@ DROP TABLE IF EXISTS `lb-wallpaper`.`wallpaper_info`;
 CREATE TABLE `lb-wallpaper`.`wallpaper_info`  (
                                    `id` bigint NOT NULL AUTO_INCREMENT COMMENT '主键ID',
                                    `name` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '壁纸名称',
+                                   `cover_image` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '封面壁纸图片',
                                    `img_url_list` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '壁纸图片访问路径集合',
                                    `is_collection` tinyint NOT NULL COMMENT '是否为合集，0：否，1：是',
                                    `category_id` bigint NOT NULL COMMENT '分类ID',

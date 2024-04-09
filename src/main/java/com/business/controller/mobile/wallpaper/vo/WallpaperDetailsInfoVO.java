@@ -13,6 +13,9 @@ public class WallpaperDetailsInfoVO {
     @Schema(title = "壁纸名称", description = "壁纸名称", name = "name")
     private String name;
 
+    @Schema(title = "封面壁纸图片", description = "封面壁纸图片", name = "coverImage")
+    private String coverImage;
+
     @Schema(title = "壁纸图片访问路径集合", description = "壁纸图片访问路径集合", name = "imgUrlList")
     private String imgUrlList;
 

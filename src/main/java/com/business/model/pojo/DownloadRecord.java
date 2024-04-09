@@ -28,6 +28,9 @@ public class DownloadRecord {
     /** 壁纸ID */
     private Long wallpaperId;
 
+    /** 壁纸的下载路径 */
+    private String wallpaperDownloadUrl;
+
     /**
      * 创建时间
      */

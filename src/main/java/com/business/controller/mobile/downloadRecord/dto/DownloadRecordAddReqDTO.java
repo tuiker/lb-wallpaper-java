@@ -10,4 +10,7 @@ public class DownloadRecordAddReqDTO {
     @Schema(title = "壁纸ID", description = "壁纸ID", type = "Integer")
     private Long wallpaperId;
 
+    @Schema(title = "壁纸的下载路径", description = "壁纸的下载路径", type = "String")
+    private String wallpaperDownloadUrl;
+
 }

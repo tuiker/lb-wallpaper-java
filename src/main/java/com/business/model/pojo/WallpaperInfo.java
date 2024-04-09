@@ -26,6 +26,9 @@ public class WallpaperInfo extends BaseEntity {
     /** 壁纸名称 */
     private String name;
 
+    /** 封面壁纸图片 */
+    private String coverImage;
+
     /** 壁纸图片访问路径集合 */
     private String imgUrlList;
 

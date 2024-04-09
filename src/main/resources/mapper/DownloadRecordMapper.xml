@@ -3,7 +3,7 @@
 <mapper namespace="com.business.model.dao.DownloadRecordMapper">
 
     <select id="pageList" resultType="com.business.controller.mobile.downloadRecord.vo.DownloadRecordPageVO">
-        SELECT b.id, b.`name`, b.img_url_list, b.is_collection, b.details
+        SELECT b.id, b.`name`, a.wallpaper_download_url, b.is_collection, b.details
         FROM download_record AS a
         LEFT JOIN wallpaper_info AS b ON b.id = a.wallpaper_id
         WHERE
