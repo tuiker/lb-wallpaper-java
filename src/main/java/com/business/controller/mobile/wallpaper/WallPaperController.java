@@ -46,7 +46,7 @@ public class WallPaperController {
 
         if(CollectionUtil.isNotEmpty(result.getList())){
             //随机获取一个图片类型广告，放入壁纸集合中
-            MobileAdvertisingVO randomAdv = advertisingService.getRandomAdv(CommConstant.CONTENTS_TYPE_IMG);
+            MobileAdvertisingVO randomAdv = advertisingService.getRandomAdv(null);
             if(null != randomAdv){
                 WallpaperPageVO adv = BeanUtil.copyProperties(randomAdv, WallpaperPageVO.class);
                 adv.setIsAdv(true);
