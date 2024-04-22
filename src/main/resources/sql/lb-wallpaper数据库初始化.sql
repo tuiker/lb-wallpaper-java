@@ -78,6 +78,8 @@ CREATE TABLE `lb-wallpaper`.`consumer_user`  (
                                   UNIQUE INDEX `uidx_phone`(`phone` ASC) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '用户信息表' ROW_FORMAT = Dynamic;
 
+INSERT INTO `lb-wallpaper`.`consumer_user` (`id`, `nickname`, `head_img`, `phone`, `password`, `register_time`, `recent_login_time`, `gender`, `birthday`, `signature`) VALUES (1, 'wallpaper lord', 'https://h5.cajbook.com/image/2024/04/22/20240422113737891-1.png', '18569542414', '25f9e794323b453885f5181f1b624d0b', '2024-03-16 16:00:02', '2024-03-29 11:17:58', 0, '2024-03-27', 'Lorem et reprehenderit eu nullaaaa');
+
 -- ----------------------------
 -- Records of consumer_user
 -- ----------------------------
