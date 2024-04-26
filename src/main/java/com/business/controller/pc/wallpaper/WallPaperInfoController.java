@@ -110,10 +110,9 @@ public class WallPaperInfoController {
             if (fullName.endsWith(".jpg") || fullName.endsWith(".jpeg")) {
                 //获取文件名称，不带文件扩展名
                 String fileName = fullName.substring(0, fullName.indexOf("."));
-
-                String fileUrl = mobilePath + wallpaperFile.getAbsolutePath();
-                log.info(fileUrl);
-
+                //生成壁纸访问路径
+                String fileUrl = mobilePath + wallpaperFile.getAbsolutePath().replaceAll(filePath, "");
+                //创建壁纸信息对象
                 WallpaperInfo wallpaperInfo = new WallpaperInfo();
                 wallpaperInfo.setName(fileName);
                 wallpaperInfo.setCoverImage(fileUrl);
@@ -126,7 +125,7 @@ public class WallPaperInfoController {
                 wallpaperInfoList.add(wallpaperInfo);
             }
         }
-
+        //保存到数据库
         wallpaperInfoService.saveBatch(wallpaperInfoList);
 
         return ResultVO.success(true);
