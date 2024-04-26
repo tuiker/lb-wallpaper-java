@@ -33,6 +33,12 @@ public class SecurityAutoConfiguration {
             "/mobile/wallpaper/getHomeData",
             "/mobile/wallpaper/pageList",
 
+            //过滤根据壁纸文件目录批量新增壁纸信息请求
+            "/pc/wallpaper/batchAddWallpaperToDatabase",
+
+            //过滤热搜关键词请求
+            "/mobile/hotSearch/**",
+
             "/mobile/category/**", //过滤用户端 - 壁纸分类请求
             "/comm/**" //过滤公共请求
     };

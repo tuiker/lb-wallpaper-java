@@ -270,4 +270,14 @@ CREATE TABLE `lb-wallpaper`.`wallpaper_info`  (
 ) ENGINE = InnoDB AUTO_INCREMENT = 35 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '壁纸信息表' ROW_FORMAT = Dynamic;
 
 
+DROP TABLE IF EXISTS `lb-wallpaper`.`hot_search`;
+CREATE TABLE `lb-wallpaper`.`hot_search` (
+                              `id` bigint NOT NULL AUTO_INCREMENT COMMENT '主键ID',
+                              `keyword` varchar(30) NOT NULL COMMENT '关键词',
+                              `search_num` int NOT NULL COMMENT '搜索次数',
+                              PRIMARY KEY (`id`),
+                              KEY `idx_keyword` (`keyword`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='热搜关键词信息表';
+
+
 SET FOREIGN_KEY_CHECKS = 1;
