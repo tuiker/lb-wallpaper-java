@@ -255,7 +255,7 @@ CREATE TABLE `lb-wallpaper`.`wallpaper_collect_record`  (
 DROP TABLE IF EXISTS `lb-wallpaper`.`wallpaper_info`;
 CREATE TABLE `lb-wallpaper`.`wallpaper_info`  (
                                    `id` bigint NOT NULL AUTO_INCREMENT COMMENT '主键ID',
-                                   `name` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '壁纸名称',
+                                   `name` varchar(300) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '壁纸名称',
                                    `cover_image` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '封面壁纸图片',
                                    `img_url_list` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '壁纸图片访问路径集合',
                                    `is_collection` tinyint NOT NULL COMMENT '是否为合集，0：否，1：是',
