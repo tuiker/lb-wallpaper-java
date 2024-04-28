@@ -78,6 +78,8 @@ CREATE TABLE `lb-wallpaper`.`consumer_user`  (
                                   UNIQUE INDEX `uidx_phone`(`phone` ASC) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '用户信息表' ROW_FORMAT = Dynamic;
 
+INSERT INTO `lb-wallpaper`.`consumer_user` (`id`, `nickname`, `head_img`, `phone`, `password`, `register_time`, `recent_login_time`, `gender`, `birthday`, `signature`) VALUES (1, 'wallpaper lord', 'https://h5.cajbook.com/image/2024/04/22/20240422113737891-1.png', '18569542414', '25f9e794323b453885f5181f1b624d0b', '2024-03-16 16:00:02', '2024-03-29 11:17:58', 0, '2024-03-27', 'Lorem et reprehenderit eu nullaaaa');
+
 -- ----------------------------
 -- Records of consumer_user
 -- ----------------------------
@@ -91,6 +93,7 @@ CREATE TABLE `lb-wallpaper`.`download_record`  (
                                     `id` bigint NOT NULL AUTO_INCREMENT COMMENT '主键ID',
                                     `user_id` bigint NOT NULL COMMENT '用户ID',
                                     `wallpaper_id` bigint NOT NULL COMMENT '壁纸ID',
+                                    `wallpaper_download_url` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '壁纸下载路径',
                                     `create_time` datetime NOT NULL COMMENT '创建时间',
                                     PRIMARY KEY (`id`) USING BTREE,
                                     INDEX `idx_user_id`(`user_id` ASC) USING BTREE,
@@ -252,7 +255,8 @@ CREATE TABLE `lb-wallpaper`.`wallpaper_collect_record`  (
 DROP TABLE IF EXISTS `lb-wallpaper`.`wallpaper_info`;
 CREATE TABLE `lb-wallpaper`.`wallpaper_info`  (
                                    `id` bigint NOT NULL AUTO_INCREMENT COMMENT '主键ID',
-                                   `name` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '壁纸名称',
+                                   `name` varchar(300) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '壁纸名称',
+                                   `cover_image` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '封面壁纸图片',
                                    `img_url_list` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '壁纸图片访问路径集合',
                                    `is_collection` tinyint NOT NULL COMMENT '是否为合集，0：否，1：是',
                                    `category_id` bigint NOT NULL COMMENT '分类ID',
@@ -264,6 +268,16 @@ CREATE TABLE `lb-wallpaper`.`wallpaper_info`  (
                                    PRIMARY KEY (`id`) USING BTREE,
                                    INDEX `idx_category_id`(`category_id` ASC) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 35 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '壁纸信息表' ROW_FORMAT = Dynamic;
+
+
+DROP TABLE IF EXISTS `lb-wallpaper`.`hot_search`;
+CREATE TABLE `lb-wallpaper`.`hot_search` (
+                              `id` bigint NOT NULL AUTO_INCREMENT COMMENT '主键ID',
+                              `keyword` varchar(30) NOT NULL COMMENT '关键词',
+                              `search_num` int NOT NULL COMMENT '搜索次数',
+                              PRIMARY KEY (`id`),
+                              KEY `idx_keyword` (`keyword`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='热搜关键词信息表';
 
 
 SET FOREIGN_KEY_CHECKS = 1;

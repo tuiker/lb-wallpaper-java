@@ -10,6 +10,7 @@ import com.business.common.util.MD5Utils;
 import com.business.common.util.SecurityUtils;
 import com.business.common.util.SmsUtil;
 import com.business.controller.mobile.consumerUser.dto.ConsumerUserUpdateReqDTO;
+import com.business.controller.mobile.consumerUser.dto.LoginByPasswordReqDTO;
 import com.business.controller.mobile.consumerUser.dto.LoginReqDTO;
 import com.business.controller.mobile.consumerUser.dto.ResetPasswordReqDTO;
 import com.business.controller.mobile.consumerUser.vo.ConsumerUserVO;
@@ -52,7 +53,6 @@ public class ConsumerUserServiceImpl extends ServiceImpl<ConsumerUserMapper, Con
         if(!SmsUtil.verifyCodePhone(reqDTO.getPhone(), reqDTO.getVerifyCode())){
             return ResultVO.error("Error in verification code");
         }
-        LocalDateTime now = LocalDateTime.now();
         //当前登录用户
         ConsumerUser user = null;
         //校验用户是否已存在
@@ -61,7 +61,7 @@ public class ConsumerUserServiceImpl extends ServiceImpl<ConsumerUserMapper, Con
             user = new ConsumerUser();
             user.setPhone(reqDTO.getPhone());
             user.setNickname(reqDTO.getPhone());
-            user.setRegisterTime(now);
+            user.setRegisterTime(LocalDateTime.now());
             this.save(user);
 
             //创建默认收藏夹
@@ -69,8 +69,20 @@ public class ConsumerUserServiceImpl extends ServiceImpl<ConsumerUserMapper, Con
         }else {
             //用户存在，查询出用户信息
             user = this.lambdaQuery().eq(ConsumerUser::getPhone, reqDTO.getPhone()).one();
+            if(null == user){
+                return ResultVO.error("Login failed: The phone number is not registered");
+            }
         }
 
+        return ResultVO.success(loginSuccess(user));
+    }
+
+    /**
+     * 登录成功，创建token存入redis，并返回登录结果VO
+     * @param user
+     * @return
+     */
+    private LoginResultVO loginSuccess(ConsumerUser user){
         //登录成功，创建token，存入缓存
         String token = IdUtil.fastSimpleUUID();
         LoginUser loginUser = new LoginUser(user);
@@ -78,13 +90,33 @@ public class ConsumerUserServiceImpl extends ServiceImpl<ConsumerUserMapper, Con
         loginUserRedisDAO.set(token, loginUser, false);
 
         //修改最近登录时间
-        user.setRecentLoginTime(now);
+        user.setRecentLoginTime(LocalDateTime.now());
         this.updateById(user);
 
         //转换为登录响应结果
         LoginResultVO loginResultVO = BeanUtil.copyProperties(user, LoginResultVO.class);
         loginResultVO.setToken(token);
-        return ResultVO.success(loginResultVO);
+
+        return loginResultVO;
+    }
+
+    /**
+     * 用户登录-密码登录
+     * @param reqDTO
+     * @return
+     */
+    @Override
+    public ResultVO<LoginResultVO> consumerLoginByPassword(LoginByPasswordReqDTO reqDTO) {
+        if(StrUtil.isNotBlank(reqDTO.getPhone()) && StrUtil.isNotBlank(reqDTO.getPassword())){
+            ConsumerUser user = this.lambdaQuery().eq(ConsumerUser::getPhone, reqDTO.getPhone())
+                    .eq(ConsumerUser::getPassword, MD5Utils.MD5(reqDTO.getPassword())).one();
+            if(null != user){
+                return ResultVO.success(loginSuccess(user));
+            }
+            return ResultVO.error("Login failure: Account or password error");
+        }
+
+        return ResultVO.error("Login failed: Account or password cannot be empty");
     }
 
     /**

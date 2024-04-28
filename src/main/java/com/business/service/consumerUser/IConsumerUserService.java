@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.business.common.response.ResultVO;
 import com.business.common.vo.PageResult;
 import com.business.controller.mobile.consumerUser.dto.ConsumerUserUpdateReqDTO;
+import com.business.controller.mobile.consumerUser.dto.LoginByPasswordReqDTO;
 import com.business.controller.mobile.consumerUser.dto.LoginReqDTO;
 import com.business.controller.mobile.consumerUser.dto.ResetPasswordReqDTO;
 import com.business.controller.mobile.consumerUser.vo.ConsumerUserVO;
@@ -23,6 +24,13 @@ public interface IConsumerUserService extends IService<ConsumerUser> {
      * @return
      */
     ResultVO<LoginResultVO> consumerLogin(LoginReqDTO reqDTO);
+
+    /**
+     * 用户登录-密码登录
+     * @param reqDTO
+     * @return
+     */
+    ResultVO<LoginResultVO> consumerLoginByPassword(LoginByPasswordReqDTO reqDTO);
 
     /**
      * 用户登出

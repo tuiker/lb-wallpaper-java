@@ -20,7 +20,7 @@ public interface IFavoritesService extends IService<Favorites> {
      * @param reqDTO
      * @return
      */
-    ResultVO<Boolean> addCollect(@RequestBody AddCollectReqDTO reqDTO);
+    ResultVO<Boolean> addCollect(AddCollectReqDTO reqDTO);
 
     /**
      * 取消收藏壁纸
@@ -34,7 +34,7 @@ public interface IFavoritesService extends IService<Favorites> {
      * @param wallpaperId 壁纸ID
      * @return
      */
-    Boolean checkIsCollect(Long wallpaperId);
+    Boolean checkIsCollect(Long favoritesId,Long wallpaperId);
 
     /**
      * 分页查询我的收藏壁纸列表

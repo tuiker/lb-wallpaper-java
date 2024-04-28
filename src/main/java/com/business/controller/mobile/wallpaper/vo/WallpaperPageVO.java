@@ -13,6 +13,9 @@ public class WallpaperPageVO {
     @Schema(title = "壁纸名称", description = "壁纸名称", name = "name")
     private String name;
 
+    @Schema(title = "封面壁纸图片", description = "封面壁纸图片", name = "coverImage")
+    private String coverImage;
+
     @Schema(title = "壁纸图片访问路径集合", description = "壁纸图片访问路径集合", name = "imgUrlList")
     private String imgUrlList;
 
@@ -24,6 +27,9 @@ public class WallpaperPageVO {
 
     @Schema(title = "下载量", description = "下载量", name = "downloadNum")
     private Integer downloadNum;
+
+    @Schema(title = "作者昵称", description = "作者昵称", name = "nickname")
+    private String nickname;
 
     @Schema(title = "是否为广告", description = "是否为广告，false：否，true：是", name = "isAdv")
     private Boolean isAdv;

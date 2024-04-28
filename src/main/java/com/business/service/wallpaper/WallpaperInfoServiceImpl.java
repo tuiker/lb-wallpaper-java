@@ -85,6 +85,7 @@ public class WallpaperInfoServiceImpl extends ServiceImpl<WallpaperInfoMapper, W
         wallpaperInfo.setCreateTime(LocalDateTime.now());
 
         JSONArray imgUrlList = JSON.parseArray(wallpaperInfo.getImgUrlList());
+        wallpaperInfo.setCoverImage(imgUrlList.get(0).toString());
         //设置是否为合集，0：否，1：是
         wallpaperInfo.setIsCollection(imgUrlList.size() > 1 ? 1 : 0);
 
@@ -104,6 +105,7 @@ public class WallpaperInfoServiceImpl extends ServiceImpl<WallpaperInfoMapper, W
         wallpaperInfo.setUpdateTime(LocalDateTime.now());
 
         JSONArray imgUrlList = JSON.parseArray(wallpaperInfo.getImgUrlList());
+        wallpaperInfo.setCoverImage(imgUrlList.get(0).toString());
         //设置是否为合集，0：否，1：是
         wallpaperInfo.setIsCollection(imgUrlList.size() > 1 ? 1 : 0);
 

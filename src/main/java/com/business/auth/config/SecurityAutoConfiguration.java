@@ -27,10 +27,17 @@ public class SecurityAutoConfiguration {
             "/pc/user/userLogin", //过滤登录请求
             "/mobile/consumer/sendRegisterOrLoginSms", //过滤发送注册或登录验证码到用户手机请求
             "/mobile/consumer/consumerLogin", //过滤登录请求
+            "/mobile/consumer/consumerLoginByPassword", //过滤登录请求
 
             //过滤部分APP端壁纸信息请求
             "/mobile/wallpaper/getHomeData",
             "/mobile/wallpaper/pageList",
+
+            //过滤根据壁纸文件目录批量新增壁纸信息请求
+            "/pc/wallpaper/batchAddWallpaperToDatabase",
+
+            //过滤热搜关键词请求
+            "/mobile/hotSearch/**",
 
             "/mobile/category/**", //过滤用户端 - 壁纸分类请求
             "/comm/**" //过滤公共请求

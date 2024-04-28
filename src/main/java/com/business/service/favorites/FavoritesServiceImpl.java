@@ -36,7 +36,7 @@ public class FavoritesServiceImpl extends ServiceImpl<FavoritesMapper, Favorites
     @Override
     public ResultVO<Boolean> addCollect(AddCollectReqDTO reqDTO) {
         //用户未收藏该壁纸，才去新增收藏记录
-        if(!this.checkIsCollect(reqDTO.getWallpaperId())){
+        if(!this.checkIsCollect(reqDTO.getFavoritesId(), reqDTO.getWallpaperId())){
             WallpaperCollectRecord record = new WallpaperCollectRecord();
             record.setFavoritesId(reqDTO.getFavoritesId());
             record.setWallpaperId(reqDTO.getWallpaperId());
@@ -68,11 +68,12 @@ public class FavoritesServiceImpl extends ServiceImpl<FavoritesMapper, Favorites
      * @return
      */
     @Override
-    public Boolean checkIsCollect(Long wallpaperId) {
+    public Boolean checkIsCollect(Long favoritesId, Long wallpaperId) {
         //查询当前用户是否已收藏该壁纸
         Long count = wallpaperCollectRecordMapper.selectCount(
                 new LambdaUpdateWrapper<WallpaperCollectRecord>()
                         .eq(WallpaperCollectRecord::getUserId, SecurityUtils.getLoginUserId())
+                        .eq(WallpaperCollectRecord::getFavoritesId, favoritesId)
                         .eq(WallpaperCollectRecord::getWallpaperId, wallpaperId)
         );
         return count > 0;

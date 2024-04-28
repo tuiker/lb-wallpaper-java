@@ -13,8 +13,8 @@ public class DownloadRecordPageVO {
     @Schema(title = "壁纸名称", description = "壁纸名称", name = "name")
     private String name;
 
-    @Schema(title = "壁纸图片访问路径集合", description = "壁纸图片访问路径集合", name = "imgUrlList")
-    private String imgUrlList;
+    @Schema(title = "壁纸的下载路径", description = "壁纸的下载路径", type = "wallpaperDownloadUrl")
+    private String wallpaperDownloadUrl;
 
     @Schema(title = "是否为合集，0：否，1：是", description = "是否为合集，0：否，1：是", name = "isCollection")
     private Integer isCollection;
