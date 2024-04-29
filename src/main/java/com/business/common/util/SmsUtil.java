@@ -2,6 +2,7 @@ package com.business.common.util;
 
 import com.business.common.constant.SmsConstant;
 import com.unimtx.Uni;
+import com.unimtx.UniException;
 import com.unimtx.UniResponse;
 import com.unimtx.model.UniOtp;
 import org.springframework.stereotype.Component;
@@ -35,11 +36,17 @@ public class SmsUtil {
      **/
     public static boolean verifyCodePhone(String phone, String code) {
         Uni.init(SmsConstant.UNIMTX_ACCESS_KEY_ID, SmsConstant.UNIMTX_ACCESS_KEY_SECRET);
-        UniResponse res = UniOtp.build()
-                .setTo(phone)
-                .setCode(code) // 用户提交的验证码
-                .verify();
-        return res.valid;
+        boolean flag = false;
+        try {
+            UniResponse res = UniOtp.build()
+                    .setTo(phone)
+                    .setCode(code) // 用户提交的验证码
+                    .verify();
+            flag = res.valid;
+        } catch (UniException e) {
+
+        }
+        return flag;
     }
 
 }
