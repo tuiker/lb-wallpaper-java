@@ -11,7 +11,7 @@ spring:
       host: 127.0.0.1
       port: 3189
       password: Z#5NNYzZba3UYabhsjrNOEXY
-      database: 0
+      database: 1
 
   #上传下载文件大小
   servlet:
